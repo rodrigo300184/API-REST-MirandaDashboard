@@ -1,6 +1,6 @@
 import express, {Express } from 'express';
 import { loginController } from './controllers/login';
-import { bookingsController } from './controllers/booking';
+import  bookingsController  from './controllers/booking';
 import cors from 'cors'
 export const app: Express = express()
 
