@@ -15,7 +15,7 @@ interface BookingInterface {
     "status": string,
     "photos": string[]
 }
-export const bookingsController = Router();
+const bookingsController = Router();
 
 bookingsController.get('/', (req: Request, res: Response) => {
     try {
@@ -66,3 +66,4 @@ bookingsController.put('/:id', (req: Request<BookingInterface>, res: Response) =
     }
 })
 
+export default bookingsController;
