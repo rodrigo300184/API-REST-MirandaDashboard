@@ -34,7 +34,11 @@ function signJWT(payload) {
     return { payload, token };
 }
 function verifyJWT(token) {
-    // Verify the jwt token
+    jsonwebtoken_1.default.verify(token, secret, (error, token) => {
+        if (error)
+            throw new Error('Incorrect Token');
+        return token;
+    });
 }
 const authService = {
     login,

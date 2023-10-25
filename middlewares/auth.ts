@@ -1,9 +1,13 @@
-import authService from '../services/login'
+import authService from '../services/loginService';
+import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express'
 
 export default function authMiddleware(req: Request, res: Response, next: NextFunction) {
-    let headerVal = req.get('Authorization');
-    if(!headerVal)
-      return res.status(401).json({error:true, message:})
+    let token = req.get('token') || '';
+    try {
+        authService.verifyJWT(token)
+        return next();
+    } catch (error) {
+        return res.status(401).json(`${error}`)
+    }
 }
-
