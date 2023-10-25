@@ -1,10 +1,17 @@
-service: nodejs-aws-lambda
+service: contact-serverless-api
+frameworkVersion: "3"
+
 provider:
   name: aws
   runtime: nodejs18.x
+  region: eu-west-1
+
 functions:
-  app:
-    handler: dist/app.handler
+  api:
+    handler: ./lambda.handler
     events:
-      - http: ANY /
-      - http: ANY /{proxy+}
+      - httpApi: "*"
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline

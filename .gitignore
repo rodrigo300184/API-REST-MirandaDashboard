@@ -1,4 +1,5 @@
 .vscode
+.serverless
 # dependencies
 /node_modules
 /.pnp
