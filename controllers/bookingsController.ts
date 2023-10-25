@@ -1,20 +1,9 @@
 
 import bookingsData from '../assets/data/bookingsData.json';
 import { Request, Response, Router } from 'express';
+import { BookingInterface } from '../models/bookingModel';
 
-interface BookingInterface {
-    "id": string,
-    "guest": string,
-    "phone_number": string,
-    "order_date": string,
-    "check_in": string,
-    "check_out": string,
-    "special_request": string,
-    "room_type": string,
-    "room_number": string,
-    "status": string,
-    "photos": string[]
-}
+
 const bookingsController = Router();
 
 bookingsController.get('/', (req: Request, res: Response) => {
