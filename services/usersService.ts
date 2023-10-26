@@ -13,13 +13,14 @@ async function getById(id: string) {
   return user;
 }
 
-async function post(newRoom: UsersInterface) {
-  await usersData.push(newRoom);
+async function post(newUser: UsersInterface) {
+  await usersData.push(newUser);
   return usersData;
 }
 
 async function put(id: string, update: Partial<UsersInterface>) {
   const index = usersData.findIndex((element) => element.employee_id === id)
+  if (index === -1) throw new Error("The user doesn't exist or couldn't be updated");
   usersData[index] = { ...usersData[index], ...update };
   return usersData;
 }

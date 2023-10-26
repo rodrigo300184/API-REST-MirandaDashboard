@@ -12,53 +12,51 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingService = void 0;
-const bookingsData_json_1 = __importDefault(require("../assets/data/bookingsData.json"));
+exports.usersService = void 0;
+const client_review_json_1 = __importDefault(require("../assets/data/client_review.json"));
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllBoookings = yield bookingsData_json_1.default;
-        if (!getAllBoookings)
-            throw new Error('Error obtaining all bookings');
-        return getAllBoookings;
+        const getAllUsers = yield client_review_json_1.default;
+        if (!getAllUsers)
+            throw new Error('Error obtaining all users');
+        return getAllUsers;
     });
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield bookingsData_json_1.default.filter((element) => { return element.id === id; });
-        if (booking.length === 0)
-            throw new Error("Error obtaining the booking or the booking doesn't exist");
-        return booking;
+        const user = yield client_review_json_1.default.filter((element) => { return element.employee_id === id; });
+        if (user.length === 0)
+            throw new Error("Error obtaining the user or the user doesn't exist");
+        return user;
     });
 }
-function post(booking) {
+function post(newRoom) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield bookingsData_json_1.default.push(booking);
-        return bookingsData_json_1.default;
+        yield client_review_json_1.default.push(newRoom);
+        return client_review_json_1.default;
     });
 }
 function put(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = bookingsData_json_1.default.findIndex((element) => element.id === id);
-        if (index === -1)
-            throw new Error("The booking doesn't exist or couldn't be updated");
-        bookingsData_json_1.default[index] = Object.assign(Object.assign({}, bookingsData_json_1.default[index]), update);
-        return bookingsData_json_1.default;
+        const index = client_review_json_1.default.findIndex((element) => element.employee_id === id);
+        client_review_json_1.default[index] = Object.assign(Object.assign({}, client_review_json_1.default[index]), update);
+        return client_review_json_1.default;
     });
 }
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = bookingsData_json_1.default.findIndex((element) => element.id === id);
+        const index = client_review_json_1.default.findIndex((element) => element.employee_id === id);
         if (index === -1)
-            throw new Error("The booking doesn't exist or couldn't be deleted");
-        bookingsData_json_1.default.splice(index, 1);
+            throw new Error("The user doesn't exist or couldn't be deleted");
+        client_review_json_1.default.splice(index, 1);
         return;
     });
 }
-exports.bookingService = {
+exports.usersService = {
     get,
     getById,
     post,
     put,
     delete: _delete,
 };
-//# sourceMappingURL=bookingService.js.map
+//# sourceMappingURL=contactService.js.map

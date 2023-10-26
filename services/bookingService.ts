@@ -20,6 +20,7 @@ async function post(booking: BookingInterface) {
 
 async function put(id: string, update: Partial<BookingInterface>) {
   const index = bookingsData.findIndex((element) => element.id === id)
+  if (index === -1) throw new Error("The booking doesn't exist or couldn't be updated");
   bookingsData[index] = { ...bookingsData[index], ...update };
   return bookingsData;
 }

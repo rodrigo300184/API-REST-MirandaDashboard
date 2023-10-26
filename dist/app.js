@@ -11,6 +11,7 @@ const bookingsController_1 = __importDefault(require("./controllers/bookingsCont
 const usersController_1 = __importDefault(require("./controllers/usersController"));
 const auth_1 = __importDefault(require("./middlewares/auth"));
 const infoController_1 = __importDefault(require("./controllers/infoController"));
+const contactController_1 = __importDefault(require("./controllers/contactController"));
 //import cors from 'cors';
 exports.app = (0, express_1.default)();
 // middlewares
@@ -23,4 +24,5 @@ exports.app.use(auth_1.default);
 exports.app.use('/bookings', bookingsController_1.default);
 exports.app.use('/rooms', roomsController_1.default);
 exports.app.use('/users', usersController_1.default);
+exports.app.use('/contacts', contactController_1.default);
 //# sourceMappingURL=app.js.map

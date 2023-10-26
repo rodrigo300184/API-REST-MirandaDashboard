@@ -20,6 +20,7 @@ async function post(newRoom: RoomInterface) {
 
 async function put(id: string, update: Partial<RoomInterface>) {
   const index = roomsData.findIndex((element) => element.id === id)
+  if (index === -1) throw new Error("The room doesn't exist or couldn't be updated");
   roomsData[index] = { ...roomsData[index], ...update };
   return roomsData;
 }

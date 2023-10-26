@@ -39,6 +39,8 @@ function post(newRoom) {
 function put(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
         const index = roomsData_json_1.default.findIndex((element) => element.id === id);
+        if (index === -1)
+            throw new Error("The room doesn't exist or couldn't be updated");
         roomsData_json_1.default[index] = Object.assign(Object.assign({}, roomsData_json_1.default[index]), update);
         return roomsData_json_1.default;
     });

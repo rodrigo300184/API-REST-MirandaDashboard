@@ -30,15 +30,17 @@ function getById(id) {
         return user;
     });
 }
-function post(newRoom) {
+function post(newUser) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield employee_data_json_1.default.push(newRoom);
+        yield employee_data_json_1.default.push(newUser);
         return employee_data_json_1.default;
     });
 }
 function put(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
         const index = employee_data_json_1.default.findIndex((element) => element.employee_id === id);
+        if (index === -1)
+            throw new Error("The user doesn't exist or couldn't be updated");
         employee_data_json_1.default[index] = Object.assign(Object.assign({}, employee_data_json_1.default[index]), update);
         return employee_data_json_1.default;
     });
