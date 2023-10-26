@@ -15,7 +15,7 @@ const bookingsController = (0, express_1.Router)();
 bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookingsData = yield bookingService_1.bookingService.get();
-        res.send(bookingsData);
+        res.status(200).send(bookingsData);
     }
     catch (error) {
         res.status(444).json(`${error}`);
@@ -25,7 +25,7 @@ bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, fun
 bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.getById(req.params.id);
-        res.send(response);
+        res.status(200).send(response);
     }
     catch (error) {
         res.status(444).json(`${error}`);
@@ -34,7 +34,7 @@ bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
 bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.post(req.body);
-        res.send(response);
+        res.status(200).send(response);
     }
     catch (error) {
         res.status(500).send('Internal Server Error');
@@ -52,7 +52,7 @@ bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0
 bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.put(req.params.id, req.body);
-        res.send(response);
+        res.status(200).send(response);
     }
     catch (error) {
         res.status(444).send('No response from server');

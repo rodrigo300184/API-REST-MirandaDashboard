@@ -36,7 +36,7 @@ describe('Prueba de Login Dashboard API', () => {
         expect(res.statusCode).toEqual(400);
         expect(res.body).toEqual({ error: true, messsage: 'Error: Wrong user or password!' });
     }));
-    it('Prueba de ir a Bookings sin auntenticar debe responder status 404', () => __awaiter(void 0, void 0, void 0, function* () {
+    it('Prueba de ir a Bookings/Rooms/Contact/Users sin auntenticar debe responder status 404', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(app_1.app)
             .get('/bookings');
         expect(res.statusCode).toEqual(401);

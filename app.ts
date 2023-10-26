@@ -1,5 +1,6 @@
 import express, { Express } from 'express';
 import { loginController } from './controllers/loginController';
+import roomsController from './controllers/roomsController';
 import bookingsController from './controllers/bookingsController';
 import authMiddleware from './middlewares/auth';
 import infoController from './controllers/infoController';
@@ -17,4 +18,5 @@ app.use('/info', infoController)
 app.use('/login', loginController)
 app.use(authMiddleware)
 app.use('/bookings', bookingsController)
+app.use('/rooms', roomsController)
 

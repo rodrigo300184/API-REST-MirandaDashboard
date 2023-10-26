@@ -8,7 +8,7 @@ const bookingsController = Router();
 bookingsController.get('/', async (_req: Request, res: Response) => {
     try {
         const bookingsData = await bookingService.get();
-        res.send(bookingsData);
+        res.status(200).send(bookingsData);
     } catch (error) {
         res.status(444).json(`${error}`);
     };
@@ -17,7 +17,7 @@ bookingsController.get('/', async (_req: Request, res: Response) => {
 bookingsController.get('/:id', async (req: Request, res: Response) => {
     try {
         const response = await bookingService.getById(req.params.id);
-        res.send(response)
+        res.status(200).send(response)
     } catch (error) {
         res.status(444).json(`${error}`);
     }
@@ -26,7 +26,7 @@ bookingsController.get('/:id', async (req: Request, res: Response) => {
 bookingsController.post('/', async (req: Request<BookingInterface>, res: Response<any>) => {
     try {
         const response = await bookingService.post(req.body);
-        res.send(response);
+        res.status(200).send(response);
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
@@ -44,7 +44,7 @@ bookingsController.delete('/:id', async (req: Request, res: Response) => {
 bookingsController.put('/:id', async (req: Request<BookingInterface>, res: Response) => {
     try {
         const response = await bookingService.put(req.params.id, req.body)
-        res.send(response)
+        res.status(200).send(response)
     } catch (error) {
         res.status(444).send('No response from server');
     }
