@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
 const bookingsData_json_1 = __importDefault(require("../assets/data/bookingsData.json"));
-//export const bookings = bookingsData as BookingInterface[];
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
         const getAllBoookings = yield bookingsData_json_1.default;

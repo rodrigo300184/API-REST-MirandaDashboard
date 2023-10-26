@@ -6,7 +6,7 @@ import { BookingInterface } from '../models/bookingModel';
 
 const bookingsController = Router();
 
-bookingsController.get('/', (req: Request, res: Response) => {
+bookingsController.get('/', (_req: Request, res: Response) => {
     try {
         res.send(bookingsData)
     } catch (error) {

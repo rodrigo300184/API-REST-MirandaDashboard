@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bookingsData_json_1 = __importDefault(require("../assets/data/bookingsData.json"));
 const express_1 = require("express");
 const bookingsController = (0, express_1.Router)();
-bookingsController.get('/', (req, res) => {
+bookingsController.get('/', (_req, res) => {
     try {
         res.send(bookingsData_json_1.default);
     }

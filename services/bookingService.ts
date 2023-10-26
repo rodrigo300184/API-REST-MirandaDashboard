@@ -1,8 +1,6 @@
 import bookingsData from '../assets/data/bookingsData.json';
 import { BookingInterface } from '../models/bookingModel';
 
-//export const bookings = bookingsData as BookingInterface[];
-
 async function get() {
   const getAllBoookings = await bookingsData;
   if(!getAllBoookings) throw new Error('Error obtaining all bookings');
