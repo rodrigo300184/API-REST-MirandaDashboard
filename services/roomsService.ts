@@ -1,5 +1,5 @@
 import roomsData from '../assets/data/roomsData.json';
-import { RoomInterface } from '../models/roomModel'
+import { RoomInterface } from '../models/roomsModel'
 
 async function get() {
   const getAllRooms = await roomsData;
@@ -26,7 +26,7 @@ async function put(id: string, update: Partial<RoomInterface>) {
 
 async function _delete(id: string) {
   const index = roomsData.findIndex((element) => element.id === id)
-  if (!index) throw new Error("The room doesn't exist or couldn't be deleted");
+  if (index === -1) throw new Error("The room doesn't exist or couldn't be deleted");
   roomsData.splice(index, 1)
   return
 }

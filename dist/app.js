@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const loginController_1 = require("./controllers/loginController");
 const roomsController_1 = __importDefault(require("./controllers/roomsController"));
 const bookingsController_1 = __importDefault(require("./controllers/bookingsController"));
+const usersController_1 = __importDefault(require("./controllers/usersController"));
 const auth_1 = __importDefault(require("./middlewares/auth"));
 const infoController_1 = __importDefault(require("./controllers/infoController"));
 //import cors from 'cors';
@@ -21,4 +22,5 @@ exports.app.use('/login', loginController_1.loginController);
 exports.app.use(auth_1.default);
 exports.app.use('/bookings', bookingsController_1.default);
 exports.app.use('/rooms', roomsController_1.default);
+exports.app.use('/users', usersController_1.default);
 //# sourceMappingURL=app.js.map

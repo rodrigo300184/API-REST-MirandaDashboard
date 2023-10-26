@@ -46,7 +46,7 @@ function put(id, update) {
 function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const index = roomsData_json_1.default.findIndex((element) => element.id === id);
-        if (!index)
+        if (index === -1)
             throw new Error("The room doesn't exist or couldn't be deleted");
         roomsData_json_1.default.splice(index, 1);
         return;

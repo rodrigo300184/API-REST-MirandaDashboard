@@ -1,5 +1,4 @@
 import { Request, Response, Router } from 'express';
-import { RoomInterface } from '../models/roomModel';
 import { roomsService } from '../services/roomsService';
 
 
@@ -23,7 +22,7 @@ roomsController.get('/:id', async (req: Request, res: Response) => {
     }
 })
 
-roomsController.post('/', async (req: Request<RoomInterface>, res: Response) => {
+roomsController.post('/', async (req: Request, res: Response) => {
     try {
         const response = await roomsService.post(req.body);
         res.status(200).send(response);
@@ -41,7 +40,7 @@ roomsController.delete('/:id', async (req: Request, res: Response) => {
     }
 })
 
-roomsController.put('/:id', async (req: Request<RoomInterface>, res: Response) => {
+roomsController.put('/:id', async (req: Request, res: Response) => {
     try {
         const response = await roomsService.put(req.params.id, req.body)
         res.status(200).send(response)

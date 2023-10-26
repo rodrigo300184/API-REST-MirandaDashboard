@@ -1,5 +1,5 @@
 import bookingsData from '../assets/data/bookingsData.json';
-import { BookingInterface } from '../models/bookingModel';
+import { BookingInterface } from '../models/bookingsModel';
 
 async function get() {
   const getAllBoookings = await bookingsData;
@@ -26,7 +26,7 @@ async function put(id: string, update: Partial<BookingInterface>) {
 
 async function _delete(id: string) {
   const index = bookingsData.findIndex((element) => element.id === id)
-  if (!index) throw new Error("The booking doesn't exist or couldn't be deleted");
+  if (index === -1) throw new Error("The booking doesn't exist or couldn't be deleted");
   bookingsData.splice(index, 1)
   return
 }
