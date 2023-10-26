@@ -10,7 +10,7 @@ loginController.post("/", async (req: Request<{ user: string; password: string }
     const result = await authService.login(userName,password);
     res.send(result);
 } catch(error) {
-    res.status(500).json({error: true, messsage: 'Login fail'})
+    res.status(400).json({error: true, messsage: `${error}`})
 }
 
   }

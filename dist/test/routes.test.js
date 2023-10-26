@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("../app");
 const supertest_1 = __importDefault(require("supertest"));
-describe('Prueba de Login exitoso', () => {
-    it('should create a new post', () => __awaiter(void 0, void 0, void 0, function* () {
+describe('Prueba de Login Dashboard API', () => {
+    it('Prueba de Login exitoso', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(app_1.app)
             .post('/login')
             .send({
@@ -23,7 +23,24 @@ describe('Prueba de Login exitoso', () => {
             password: "admin",
         });
         expect(res.statusCode).toEqual(200);
-        //expect(res.body).toHaveProperty('post')
+        expect(res.body.payload.user).toBe('admin');
+        expect(res.body).toHaveProperty('payload' && 'token');
+    }));
+    it('Prueba de Login fallida por password equivocado', () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app_1.app)
+            .post('/login')
+            .send({
+            user: "admin",
+            password: "admi",
+        });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toEqual({ error: true, messsage: 'Error: Wrong user or password!' });
+    }));
+    it('Prueba de ir a Bookings sin auntenticar debe responder status 404', () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app_1.app)
+            .get('/bookings');
+        expect(res.statusCode).toEqual(401);
+        expect(res.body).toEqual('Error: Incorrect Token');
     }));
 });
 //# sourceMappingURL=routes.test.js.map

@@ -1,59 +1,62 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bookingsData_json_1 = __importDefault(require("../assets/data/bookingsData.json"));
 const express_1 = require("express");
+const bookingService_1 = require("../services/bookingService");
 const bookingsController = (0, express_1.Router)();
-bookingsController.get('/', (_req, res) => {
+bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.send(bookingsData_json_1.default);
+        const bookingsData = yield bookingService_1.bookingService.get();
+        res.send(bookingsData);
     }
     catch (error) {
-        res.status(444).send('No response from server');
+        res.status(444).json(`${error}`);
     }
     ;
-});
-bookingsController.get('/:id', (req, res) => {
+}));
+bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = bookingsData_json_1.default.filter((element) => { return element.id === req.params.id; });
+        const response = yield bookingService_1.bookingService.getById(req.params.id);
+        res.send(response);
+    }
+    catch (error) {
+        res.status(444).json(`${error}`);
+    }
+}));
+bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield bookingService_1.bookingService.post(req.body);
+        res.send(response);
+    }
+    catch (error) {
+        res.status(500).send('Internal Server Error');
+    }
+}));
+bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield bookingService_1.bookingService.delete(req.params.id);
+        res.status(200).send('The booking was correctly deleted.');
+    }
+    catch (error) {
+        res.status(400).json(`${error}`);
+    }
+}));
+bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield bookingService_1.bookingService.put(req.params.id, req.body);
         res.send(response);
     }
     catch (error) {
         res.status(444).send('No response from server');
     }
-});
-bookingsController.post('/', (req, res) => {
-    try {
-        bookingsData_json_1.default.push(req.body);
-        res.send(bookingsData_json_1.default);
-    }
-    catch (error) {
-        res.status(444).send('No response from server');
-    }
-});
-bookingsController.delete('/:id', (req, res) => {
-    try {
-        const index = bookingsData_json_1.default.findIndex((element) => element.id === req.params.id);
-        bookingsData_json_1.default.splice(index, 1);
-        res.send(bookingsData_json_1.default);
-        res.status(200).send('The booking was correctly deleted.');
-    }
-    catch (error) {
-        res.status(444).send('No response from server');
-    }
-});
-bookingsController.put('/:id', (req, res) => {
-    try {
-        const newData = req.body;
-        const index = bookingsData_json_1.default.findIndex((element) => element.id === req.params.id);
-        bookingsData_json_1.default[index] = Object.assign(Object.assign({}, bookingsData_json_1.default[index]), newData);
-        res.send(bookingsData_json_1.default);
-    }
-    catch (error) {
-        res.status(444).send('No response from server');
-    }
-});
+}));
 exports.default = bookingsController;
 //# sourceMappingURL=bookingsController.js.map

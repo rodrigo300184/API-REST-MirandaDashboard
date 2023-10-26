@@ -1,5 +1,4 @@
 import authService from '../services/loginService';
-import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express'
 
 export default function authMiddleware(req: Request, res: Response, next: NextFunction) {

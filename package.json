@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "test": "npm run build && jest",
+    "test": "jest",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
     "start": "sls offline start",
     "build": "rimraf dist && tsc"

@@ -3,24 +3,32 @@ import { BookingInterface } from '../models/bookingModel';
 
 async function get() {
   const getAllBoookings = await bookingsData;
-  if(!getAllBoookings) throw new Error('Error obtaining all bookings');
+  if (!getAllBoookings) throw new Error('Error obtaining all bookings');
   return getAllBoookings;
 }
 
-async function getById(bookingId: number) {
-  // Get a booking by id from json file
+async function getById(id: string) {
+  const booking = await bookingsData.filter((element) => { return element.id === id })
+  if (booking.length === 0) throw new Error("Error obtaining the booking or the booking doesn't exist");
+  return booking;
 }
 
 async function post(booking: BookingInterface) {
-  // Save a booking to json file
+  await bookingsData.push(booking);
+  return bookingsData;
 }
 
-async function put(bookingId: number, update: Partial<BookingInterface>) {
-  // Update a booking by id and save to json file
+async function put(id: string, update: Partial<BookingInterface>) {
+  const index = bookingsData.findIndex((element) => element.id === id)
+  bookingsData[index] = { ...bookingsData[index], ...update };
+  return bookingsData;
 }
 
-async function _delete(bookingId: number) {
-  // Delete a booking by id from json file
+async function _delete(id: string) {
+  const index = bookingsData.findIndex((element) => element.id === id)
+  if (!index) throw new Error("The booking doesn't exist or couldn't be deleted");
+  bookingsData.splice(index, 1)
+  return
 }
 
 export const bookingService = {

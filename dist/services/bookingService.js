@@ -22,24 +22,34 @@ function get() {
         return getAllBoookings;
     });
 }
-function getById(bookingId) {
+function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Get a booking by id from json file
+        const booking = yield bookingsData_json_1.default.filter((element) => { return element.id === id; });
+        if (booking.length === 0)
+            throw new Error("Error obtaining the booking or the booking doesn't exist");
+        return booking;
     });
 }
 function post(booking) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Save a booking to json file
+        yield bookingsData_json_1.default.push(booking);
+        return bookingsData_json_1.default;
     });
 }
-function put(bookingId, update) {
+function put(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Update a booking by id and save to json file
+        const index = bookingsData_json_1.default.findIndex((element) => element.id === id);
+        bookingsData_json_1.default[index] = Object.assign(Object.assign({}, bookingsData_json_1.default[index]), update);
+        return bookingsData_json_1.default;
     });
 }
-function _delete(bookingId) {
+function _delete(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        // Delete a booking by id from json file
+        const index = bookingsData_json_1.default.findIndex((element) => element.id === id);
+        if (!index)
+            throw new Error("The booking doesn't exist or couldn't be deleted");
+        bookingsData_json_1.default.splice(index, 1);
+        return;
     });
 }
 exports.bookingService = {
