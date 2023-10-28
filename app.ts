@@ -6,12 +6,12 @@ import usersController from './controllers/usersController';
 import authMiddleware from './middlewares/login';
 import infoController from './controllers/infoController';
 import contactController from './controllers/contactController';
-//import cors from 'cors';
+import cors from 'cors';
 
 export const app: Express = express();
 
 // middlewares
-//app.use(cors())
+app.use(cors())
 app.use(express.json())
 
 // public routes
