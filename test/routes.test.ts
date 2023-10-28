@@ -22,7 +22,7 @@ describe('Prueba de Login Dashboard API', () => {
         expect(res.statusCode).toEqual(401)
         expect(res.body).toEqual({ error: true, messsage: 'Error: Wrong email or password!' })
     })
-    it('Prueba de ir a Bookings/Rooms/Contact/Users sin auntenticar debe responder status 401', async () => {
+    it('Prueba de ir a Contacts/Rooms/Contact/Users sin auntenticar debe responder status 401', async () => {
         const res = await supertest(app)
             .get('/bookings')
         expect(res.statusCode).toEqual(401)
@@ -112,7 +112,7 @@ describe('Pruebas de bookings', () => {
         });
         authToken = res.body.token;
     });
-    it("Acceder a Bookings si se esta autenticado", async () => {
+    it("Acceder a Contacts si se esta autenticado", async () => {
         const res = await supertest(app).get("/bookings").set("token", authToken);
         expect(res.statusCode).toEqual(200);
     });
@@ -162,5 +162,62 @@ describe('Pruebas de bookings', () => {
           .set("token", authToken);
     
         expect(res.body).toBe("The booking was correctly deleted.");
+      });
+})
+
+describe('Pruebas de contacts', () => {
+    let authToken: string;
+
+    beforeAll(async () => {
+        const res = await supertest(app).post("/login").send({
+            email: "email@email.com",
+            password: "1234",
+        });
+        authToken = res.body.token;
+    });
+    it("Acceder a Contacts si se esta autenticado", async () => {
+        const res = await supertest(app).get("/contacts").set("token", authToken);
+        expect(res.statusCode).toEqual(200);
+    });
+    it('Obtener todos los contacts con GET si se esta autenticado', async () => {
+        const res = await supertest(app).get("/contacts").set("token", authToken);
+        const lastIndex = res.body.length - 1;
+        expect(res.body[0]).toHaveProperty("full_name");
+        expect(res.body[lastIndex]).toHaveProperty("full_name");
+    })
+    it("Agregando un nuevo contact con POST si se esta autenticado", async () => {
+
+        const newContact = {
+            "id": "50",
+            "full_name": "Soledad Romar",
+            "email": "sol.romar@example.com",
+            "phone_number": "555-123-4567",
+            "subject_of_review": "Wonderful Stay",
+            "review_body": "I had a wonderful stay at this hotel. The staff was friendly and accommodating, and the room was clean and comfortable. The hotel's amenities, including the pool and fitness center, were top-notch. I would definitely recommend it.",
+            "date": "2023-09-25",
+            "dateTime": "09:15 AM",
+            "isArchived": "true"
+        }
+
+        const res = await supertest(app)
+            .post("/contacts")
+            .set("token", authToken)
+            .send(newContact);
+        const lastIndex: number = res.body.length - 1;
+        expect(res.body[lastIndex]).toStrictEqual(newContact);
+    });
+    it("Debe retornar con GET el contact correspondiente a un Id", async () => {
+        const res = await supertest(app)
+          .get("/contacts/1")
+          .set("token", authToken);
+    
+        expect(res.body.full_name).toEqual("Alice Johnson");
+      });
+      it("Debe eliminar con DELETE el contact correspondiente a un Id", async () => {
+        const res = await supertest(app)
+          .delete("/contacts/1")
+          .set("token", authToken);
+    
+        expect(res.body).toBe("The contact was correctly deleted.");
       });
 })

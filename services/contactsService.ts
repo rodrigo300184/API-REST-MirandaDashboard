@@ -8,8 +8,8 @@ async function get() {
 }
 
 async function getById(id: string) {
-  const contact = await contactData.filter((element) => { return element.id === id })
-  if (contact.length === 0) throw new Error("Error obtaining the contact or the contact doesn't exist");
+  const contact = await contactData.find((element) => { return element.id === id })
+  if (!contact) throw new Error("Error obtaining the contact or the contact doesn't exist");
   return contact;
 }
 
