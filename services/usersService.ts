@@ -8,8 +8,8 @@ async function get() {
 }
 
 async function getById(id: string) {
-  const user = await usersData.filter((element) => { return element.employee_id === id })
-  if (user.length === 0) throw new Error("Error obtaining the user or the user doesn't exist");
+  const user = await usersData.find((element) => { return element.employee_id === id })
+  if (!user) throw new Error("Error obtaining the user or the user doesn't exist");
   return user;
 }
 

@@ -88,18 +88,18 @@ describe('Pruebas de rooms', () => {
     });
     it("Debe retornar con GET el room correspondiente a un Id", async () => {
         const res = await supertest(app)
-          .get("/rooms/1ABCD123")
-          .set("token", authToken);
-    
+            .get("/rooms/1ABCD123")
+            .set("token", authToken);
+
         expect(res.body.room_type).toEqual("Double Superior");
-      });
-      it("Debe eliminar con DELETE el room correspondiente a un Id", async () => {
+    });
+    it("Debe eliminar con DELETE el room correspondiente a un Id", async () => {
         const res = await supertest(app)
-          .delete("/rooms/1ABCD123")
-          .set("token", authToken);
-    
+            .delete("/rooms/1ABCD123")
+            .set("token", authToken);
+
         expect(res.body).toBe("The room was correctly deleted.");
-      });
+    });
 })
 
 describe('Pruebas de bookings', () => {
@@ -151,21 +151,21 @@ describe('Pruebas de bookings', () => {
     });
     it("Debe retornar con GET el booking correspondiente a un Id", async () => {
         const res = await supertest(app)
-          .get("/bookings/2EFGH234")
-          .set("token", authToken);
-    
+            .get("/bookings/2EFGH234")
+            .set("token", authToken);
+
         expect(res.body.guest).toEqual("Bob Johnson");
-      });
-      it("Debe eliminar con DELETE el booking correspondiente a un Id", async () => {
+    });
+    it("Debe eliminar con DELETE el booking correspondiente a un Id", async () => {
         const res = await supertest(app)
-          .delete("/bookings/2EFGH234")
-          .set("token", authToken);
-    
+            .delete("/bookings/2EFGH234")
+            .set("token", authToken);
+
         expect(res.body).toBe("The booking was correctly deleted.");
-      });
+    });
 })
 
-describe('Pruebas de contacts', () => {
+describe('Pruebas de Contacts', () => {
     let authToken: string;
 
     beforeAll(async () => {
@@ -208,16 +208,72 @@ describe('Pruebas de contacts', () => {
     });
     it("Debe retornar con GET el contact correspondiente a un Id", async () => {
         const res = await supertest(app)
-          .get("/contacts/1")
-          .set("token", authToken);
-    
+            .get("/contacts/1")
+            .set("token", authToken);
+
         expect(res.body.full_name).toEqual("Alice Johnson");
-      });
-      it("Debe eliminar con DELETE el contact correspondiente a un Id", async () => {
+    });
+    it("Debe eliminar con DELETE el contact correspondiente a un Id", async () => {
         const res = await supertest(app)
-          .delete("/contacts/1")
-          .set("token", authToken);
-    
+            .delete("/contacts/1")
+            .set("token", authToken);
+
         expect(res.body).toBe("The contact was correctly deleted.");
-      });
+    });
+})
+
+describe('Pruebas de Users', () => {
+    let authToken: string;
+
+    beforeAll(async () => {
+        const res = await supertest(app).post("/login").send({
+            email: "email@email.com",
+            password: "1234",
+        });
+        authToken = res.body.token;
+    });
+    it("Acceder a users si se esta autenticado", async () => {
+        const res = await supertest(app).get("/users").set("token", authToken);
+        expect(res.statusCode).toEqual(200);
+    });
+    it('Obtener todos los users con GET si se esta autenticado', async () => {
+        const res = await supertest(app).get("/users").set("token", authToken);
+        const lastIndex = res.body.length - 1;
+        expect(res.body[0]).toHaveProperty("full_name");
+        expect(res.body[lastIndex]).toHaveProperty("full_name");
+    })
+    it("Agregando un nuevo user con POST si se esta autenticado", async () => {
+
+        const newUser = {
+            "employee_id": "1ABCD124",
+            "full_name": "Camilo Doe",
+            "email": "camilo.doe@example.com",
+            "photo": "https://robohash.org/JohnDoe.png?set=any",
+            "start_date": "2020-05-15",
+            "description": "Front Desk Manager",
+            "phone_number": "+1 (123) 456-7890",
+            "status": "active"
+        }
+
+        const res = await supertest(app)
+            .post("/users")
+            .set("token", authToken)
+            .send(newUser);
+        const lastIndex: number = res.body.length - 1;
+        expect(res.body[lastIndex]).toStrictEqual(newUser);
+    });
+    it("Debe retornar con GET el user correspondiente a un Id", async () => {
+        const res = await supertest(app)
+            .get("/users/1ABCD123")
+            .set("token", authToken);
+
+        expect(res.body.full_name).toEqual("John Doe");
+    });
+    it("Debe eliminar con DELETE el user correspondiente a un Id", async () => {
+        const res = await supertest(app)
+            .delete("/users/1ABCD123")
+            .set("token", authToken);
+
+        expect(res.body).toBe("The user was correctly deleted.");
+    });
 })
