@@ -1,6 +1,5 @@
 import { app } from '../app'
 import supertest from 'supertest'
-import { BookingInterface } from '../models/bookingsModel';
 describe('Prueba de Login Dashboard API', () => {
     it('Prueba de Login exitoso', async () => {
         const res = await supertest(app)
@@ -37,6 +36,72 @@ describe('Prueba de Login Dashboard API', () => {
     })
 })
 
+describe('Pruebas de rooms', () => {
+    let authToken: string;
+
+    beforeAll(async () => {
+        const res = await supertest(app).post("/login").send({
+            email: "email@email.com",
+            password: "1234",
+        });
+        authToken = res.body.token;
+    });
+    it("Acceder a Rooms si se esta autenticado", async () => {
+        const res = await supertest(app).get("/rooms").set("token", authToken);
+        expect(res.statusCode).toEqual(200);
+    });
+    it('Obtener todos los rooms con GET si se esta autenticado', async () => {
+        const res = await supertest(app).get("/rooms").set("token", authToken);
+        const lastIndex = res.body.length - 1;
+        expect(res.body[0]).toHaveProperty("id" && "amenities");
+        expect(res.body[lastIndex]).toHaveProperty("id" && "amenities");
+    })
+    it("Agregando un nuevo room con POST si se esta autenticado", async () => {
+
+        const newRoom = {
+            "id": "2EFRD56",
+            "room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
+            "room_type": "Queen Bed",
+            "amenities": [
+                { "name": "1/3 Bed Space", "description": "Cozy bed area" },
+                { "name": "Free Wifi", "description": "Complimentary Wi-Fi" },
+                { "name": "Air Conditioner", "description": "Climate control" },
+                { "name": "Television", "description": "Flat-screen TV" },
+                { "name": "Towels", "description": "Fresh towels provided" },
+                {
+                    "name": "Coffee Set",
+                    "description": "Coffee and tea making facilities"
+                }
+            ],
+            "price": 120,
+            "offer_price": false,
+            "discount": 5,
+            "status": "Available"
+        }
+
+        const res = await supertest(app)
+            .post("/rooms")
+            .set("token", authToken)
+            .send(newRoom);
+        const lastIndex: number = res.body.length - 1;
+        expect(res.body[lastIndex]).toStrictEqual(newRoom);
+    });
+    it("Debe retornar con GET el room correspondiente a un Id", async () => {
+        const res = await supertest(app)
+          .get("/rooms/1ABCD123")
+          .set("token", authToken);
+    
+        expect(res.body.room_type).toEqual("Double Superior");
+      });
+      it("Debe eliminar con DELETE el room correspondiente a un Id", async () => {
+        const res = await supertest(app)
+          .delete("/rooms/1ABCD123")
+          .set("token", authToken);
+    
+        expect(res.body).toBe("The room was correctly deleted.");
+      });
+})
+
 describe('Pruebas de bookings', () => {
     let authToken: string;
 
@@ -53,7 +118,9 @@ describe('Pruebas de bookings', () => {
     });
     it('Obtener todos los bookings con GET si se esta autenticado', async () => {
         const res = await supertest(app).get("/bookings").set("token", authToken);
+        const lastIndex = res.body.length - 1;
         expect(res.body[0]).toHaveProperty("guest");
+        expect(res.body[lastIndex]).toHaveProperty("guest");
     })
     it("Agregando un nuevo booking con POST si se esta autenticado", async () => {
 

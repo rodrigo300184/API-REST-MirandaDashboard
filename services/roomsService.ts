@@ -8,8 +8,8 @@ async function get() {
 }
 
 async function getById(id: string) {
-  const room = await roomsData.filter((element) => { return element.id === id })
-  if (room.length === 0) throw new Error("Error obtaining the room or the room doesn't exist");
+  const room = await roomsData.find((element) => { return element.id === id })
+  if (!room) throw new Error("Error obtaining the room or the room doesn't exist");
   return room;
 }
 

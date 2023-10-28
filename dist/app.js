@@ -12,10 +12,10 @@ const usersController_1 = __importDefault(require("./controllers/usersController
 const login_1 = __importDefault(require("./middlewares/login"));
 const infoController_1 = __importDefault(require("./controllers/infoController"));
 const contactController_1 = __importDefault(require("./controllers/contactController"));
-//import cors from 'cors';
+const cors_1 = __importDefault(require("cors"));
 exports.app = (0, express_1.default)();
 // middlewares
-//app.use(cors())
+exports.app.use((0, cors_1.default)());
 exports.app.use(express_1.default.json());
 // public routes
 exports.app.use('/', infoController_1.default);
