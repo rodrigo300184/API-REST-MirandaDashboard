@@ -15,7 +15,7 @@ const infoController = (0, express_1.Router)();
 infoController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const info = yield infoService_1.infoService.get();
-        res.send(info);
+        res.json(info);
     }
     catch (error) {
         return res.status(444).json(`${error}`);

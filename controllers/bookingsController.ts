@@ -8,34 +8,34 @@ const bookingsController = Router();
 bookingsController.get('/', async (_req: Request, res: Response) => {
     try {
         const bookingsData = await bookingService.get();
-        res.status(200).send(bookingsData);
+        res.json(bookingsData);
     } catch (error) {
-        res.status(444).json(`${error}`);
+        res.status(500).json(`${error}`);
     };
 })
 
 bookingsController.get('/:id', async (req: Request, res: Response) => {
     try {
         const response = await bookingService.getById(req.params.id);
-        res.status(200).send(response)
+        res.json(response)
     } catch (error) {
-        res.status(444).json(`${error}`);
+        res.status(400).json(`${error}`);
     }
 })
 
 bookingsController.post('/', async (req: Request<BookingInterface>, res: Response<any>) => {
     try {
         const response = await bookingService.post(req.body);
-        res.status(200).send(response);
+        res.json(response);
     } catch (error) {
-        res.status(500).send('Internal Server Error');
+        res.status(500).json('Internal Server Error');
     }
 })
 
 bookingsController.delete('/:id', async (req: Request, res: Response) => {
     try {
         await bookingService.delete(req.params.id)
-        res.status(200).send('The booking was correctly deleted.')
+        res.json('The booking was correctly deleted.')
     } catch (error) {
         res.status(400).json(`${error}`);
     }
@@ -44,9 +44,9 @@ bookingsController.delete('/:id', async (req: Request, res: Response) => {
 bookingsController.put('/:id', async (req: Request<BookingInterface>, res: Response) => {
     try {
         const response = await bookingService.put(req.params.id, req.body)
-        res.status(200).send(response)
+        res.json(response)
     } catch (error) {
-        res.status(444).send('No response from server');
+        res.status(400).json(`${error}`);
     }
 })
 

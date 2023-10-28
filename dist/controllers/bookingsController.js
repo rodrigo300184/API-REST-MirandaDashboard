@@ -15,35 +15,35 @@ const bookingsController = (0, express_1.Router)();
 bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookingsData = yield bookingService_1.bookingService.get();
-        res.status(200).send(bookingsData);
+        res.json(bookingsData);
     }
     catch (error) {
-        res.status(444).json(`${error}`);
+        res.status(500).json(`${error}`);
     }
     ;
 }));
 bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.getById(req.params.id);
-        res.status(200).send(response);
+        res.json(response);
     }
     catch (error) {
-        res.status(444).json(`${error}`);
+        res.status(400).json(`${error}`);
     }
 }));
 bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.post(req.body);
-        res.status(200).send(response);
+        res.json(response);
     }
     catch (error) {
-        res.status(500).send('Internal Server Error');
+        res.status(500).json('Internal Server Error');
     }
 }));
 bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield bookingService_1.bookingService.delete(req.params.id);
-        res.status(200).send('The booking was correctly deleted.');
+        res.json('The booking was correctly deleted.');
     }
     catch (error) {
         res.status(400).json(`${error}`);
@@ -52,10 +52,10 @@ bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0
 bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.put(req.params.id, req.body);
-        res.status(200).send(response);
+        res.json(response);
     }
     catch (error) {
-        res.status(444).send('No response from server');
+        res.status(400).json(`${error}`);
     }
 }));
 exports.default = bookingsController;

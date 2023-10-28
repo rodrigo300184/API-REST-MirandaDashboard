@@ -24,8 +24,8 @@ function get() {
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield bookingsData_json_1.default.filter((element) => { return element.id === id; });
-        if (booking.length === 0)
+        const booking = yield bookingsData_json_1.default.find((element) => { return element.id === id; });
+        if (!booking)
             throw new Error("Error obtaining the booking or the booking doesn't exist");
         return booking;
     });

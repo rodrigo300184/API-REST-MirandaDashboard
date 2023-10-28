@@ -18,13 +18,13 @@ const express_1 = require("express");
 exports.loginController = (0, express_1.Router)();
 exports.loginController.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userName = req.body.user;
+        const email = req.body.email;
         const password = req.body.password;
-        const result = yield loginService_1.default.login(userName, password);
-        res.send(result);
+        const result = yield loginService_1.default.login(email, password);
+        res.json(result);
     }
     catch (error) {
-        res.status(400).json({ error: true, messsage: `${error}` });
+        res.status(401).json({ error: true, messsage: `${error}` });
     }
 }));
 //# sourceMappingURL=loginController.js.map

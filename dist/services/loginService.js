@@ -15,18 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
 const defaultUser = {
-    user: "admin",
-    password: "admin",
+    email: "email@email.com",
+    password: "1234",
 };
 const secret = process.env.SECRET_KEY || '';
-function login(user, password) {
+function login(email, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (user === defaultUser.user && password === defaultUser.password) {
-            return signJWT({ user });
-        }
-        else {
-            throw new Error('Wrong user or password!');
-        }
+        if (email === defaultUser.email && password === defaultUser.password)
+            return signJWT({ email });
+        throw new Error('Wrong email or password!');
     });
 }
 function signJWT(payload) {
@@ -34,16 +31,14 @@ function signJWT(payload) {
     return { payload, token };
 }
 function verifyJWT(token) {
-    jsonwebtoken_1.default.verify(token, secret, (error, token) => {
-        if (error)
-            throw new Error('Incorrect Token');
-        return token;
-    });
+    const verifiedResult = jsonwebtoken_1.default.verify(token, secret);
+    return verifiedResult;
 }
-const authService = {
+;
+const loginService = {
     login,
     signJWT,
     verifyJWT,
 };
-exports.default = authService;
+exports.default = loginService;
 //# sourceMappingURL=loginService.js.map

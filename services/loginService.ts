@@ -2,36 +2,31 @@ import jwt from "jsonwebtoken";
 import 'dotenv/config';
 
 const defaultUser = {
-    user: "admin",
-    password: "admin",
+    email: "email@email.com",
+    password: "1234",
 };
 
 const secret: string = process.env.SECRET_KEY || '';
 
-async function login(user: string, password: string) {
-    if (user === defaultUser.user && password === defaultUser.password) {
-        return signJWT({ user })
-    } else {
-        throw new Error('Wrong user or password!')
-    }
+async function login(email: string, password: string) {
+    if (email === defaultUser.email && password === defaultUser.password) return signJWT({ email })
+    throw new Error('Wrong email or password!')
 }
 
-function signJWT(payload: { user: string }) {
+function signJWT(payload: { email: string }) {
     const token = jwt.sign(payload, secret, { expiresIn: '1h' });
     return { payload, token };
 }
 
 function verifyJWT(token: string) {
-    jwt.verify(token, secret, (error, token) => {
-        if (error) throw new Error('Incorrect Token')
-        return token;
-    });
-}
+    const verifiedResult = jwt.verify(token, secret)
+    return verifiedResult;
+};
 
-const authService = {
+const loginService = {
     login,
     signJWT,
     verifyJWT,
 };
 
-export default authService;
+export default loginService;

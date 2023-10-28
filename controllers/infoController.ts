@@ -6,7 +6,7 @@ const infoController = Router();
 infoController.get('/', async (_req: Request, res: Response) => {
     try {
         const info = await infoService.get();
-        res.send(info);
+        res.json(info);
     } catch (error) {
         return res.status(444).json(`${error}`);
     }
