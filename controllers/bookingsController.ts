@@ -3,7 +3,7 @@ import { BookingInterface } from '../models/bookingsModel';
 import { bookingService } from '../services/bookingService';
 
 
-const bookingsController = Router();
+export const bookingsController = Router();
 
 bookingsController.get('/', async (_req: Request, res: Response) => {
     try {
@@ -50,4 +50,3 @@ bookingsController.put('/:id', async (req: Request<BookingInterface>, res: Respo
     }
 })
 
-export default bookingsController;

@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { contactsService } from '../services/contactsService';
 
 
-const contactController = Router();
+export const contactController = Router();
 
 contactController.get('/', async (_req: Request, res: Response) => {
     try {
@@ -49,4 +49,3 @@ contactController.put('/:id', async (req: Request, res: Response) => {
     }
 })
 
-export default contactController;

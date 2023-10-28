@@ -6,25 +6,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 const express_1 = __importDefault(require("express"));
 const loginController_1 = require("./controllers/loginController");
-const roomsController_1 = __importDefault(require("./controllers/roomsController"));
-const bookingsController_1 = __importDefault(require("./controllers/bookingsController"));
-const usersController_1 = __importDefault(require("./controllers/usersController"));
-const login_1 = __importDefault(require("./middlewares/login"));
-const infoController_1 = __importDefault(require("./controllers/infoController"));
-const contactController_1 = __importDefault(require("./controllers/contactController"));
+const roomsController_1 = require("./controllers/roomsController");
+const bookingsController_1 = require("./controllers/bookingsController");
+const usersController_1 = require("./controllers/usersController");
+const login_1 = require("./middlewares/login");
+const infoController_1 = require("./controllers/infoController");
+const contactController_1 = require("./controllers/contactController");
 const cors_1 = __importDefault(require("cors"));
 exports.app = (0, express_1.default)();
 // middlewares
 exports.app.use((0, cors_1.default)());
 exports.app.use(express_1.default.json());
 // public routes
-exports.app.use('/', infoController_1.default);
+exports.app.use('/', infoController_1.infoController);
 exports.app.use('/login', loginController_1.loginController);
-exports.app.use(login_1.default);
-exports.app.use('/bookings', bookingsController_1.default);
-exports.app.use('/rooms', roomsController_1.default);
-exports.app.use('/users', usersController_1.default);
-exports.app.use('/contacts', contactController_1.default);
+exports.app.use(login_1.authMiddleware);
+exports.app.use('/bookings', bookingsController_1.bookingsController);
+exports.app.use('/rooms', roomsController_1.roomsController);
+exports.app.use('/users', usersController_1.usersController);
+exports.app.use('/contacts', contactController_1.contactController);
 exports.app.use((error, _req, res) => {
     console.error(error);
     return res.status(500).json({ error: true, message: 'Application error' });

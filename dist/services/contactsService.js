@@ -24,8 +24,8 @@ function get() {
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const contact = yield client_review_json_1.default.filter((element) => { return element.id === id; });
-        if (contact.length === 0)
+        const contact = yield client_review_json_1.default.find((element) => { return element.id === id; });
+        if (!contact)
             throw new Error("Error obtaining the contact or the contact doesn't exist");
         return contact;
     });

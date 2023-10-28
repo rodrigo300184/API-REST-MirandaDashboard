@@ -24,8 +24,8 @@ function get() {
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = yield employee_data_json_1.default.filter((element) => { return element.employee_id === id; });
-        if (user.length === 0)
+        const user = yield employee_data_json_1.default.find((element) => { return element.employee_id === id; });
+        if (!user)
             throw new Error("Error obtaining the user or the user doesn't exist");
         return user;
     });

@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { usersService } from '../services/usersService';
 
 
-const usersController = Router();
+export const usersController = Router();
 
 usersController.get('/', async (_req: Request, res: Response) => {
     try {
@@ -49,4 +49,3 @@ usersController.put('/:id', async (req: Request, res: Response) => {
     }
 })
 
-export default usersController;

@@ -9,54 +9,54 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.usersController = void 0;
 const express_1 = require("express");
 const usersService_1 = require("../services/usersService");
-const usersController = (0, express_1.Router)();
-usersController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController = (0, express_1.Router)();
+exports.usersController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const usersData = yield usersService_1.usersService.get();
-        res.status(200).send(usersData);
+        res.json(usersData);
     }
     catch (error) {
-        res.status(444).json(`${error}`);
+        res.status(500).json(`${error}`);
     }
     ;
 }));
-usersController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield usersService_1.usersService.getById(req.params.id);
-        res.status(200).send(response);
-    }
-    catch (error) {
-        res.status(444).json(`${error}`);
-    }
-}));
-usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const response = yield usersService_1.usersService.post(req.body);
-        res.status(200).send(response);
-    }
-    catch (error) {
-        res.status(500).send('Internal Server Error');
-    }
-}));
-usersController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield usersService_1.usersService.delete(req.params.id);
-        res.status(200).send('The user was correctly deleted.');
+        res.json(response);
     }
     catch (error) {
         res.status(400).json(`${error}`);
     }
 }));
-usersController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield usersService_1.usersService.put(req.params.id, req.body);
-        res.status(200).send(response);
+        const response = yield usersService_1.usersService.post(req.body);
+        res.json(response);
     }
     catch (error) {
-        res.status(444).send('No response from server');
+        res.status(500).send('Internal Server Error');
     }
 }));
-exports.default = usersController;
+exports.usersController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield usersService_1.usersService.delete(req.params.id);
+        res.json('The user was correctly deleted.');
+    }
+    catch (error) {
+        res.status(400).json(`${error}`);
+    }
+}));
+exports.usersController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield usersService_1.usersService.put(req.params.id, req.body);
+        res.json(response);
+    }
+    catch (error) {
+        res.status(400).json(`${error}`);
+    }
+}));
 //# sourceMappingURL=usersController.js.map

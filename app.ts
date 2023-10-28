@@ -1,11 +1,11 @@
 import express, { Express, Request, Response } from 'express';
 import { loginController } from './controllers/loginController';
-import roomsController from './controllers/roomsController';
-import bookingsController from './controllers/bookingsController';
-import usersController from './controllers/usersController';
-import authMiddleware from './middlewares/login';
-import infoController from './controllers/infoController';
-import contactController from './controllers/contactController';
+import { roomsController } from './controllers/roomsController';
+import { bookingsController } from './controllers/bookingsController';
+import { usersController } from './controllers/usersController';
+import { authMiddleware } from './middlewares/login';
+import { infoController } from './controllers/infoController';
+import { contactController } from './controllers/contactController';
 import cors from 'cors';
 
 export const app: Express = express();

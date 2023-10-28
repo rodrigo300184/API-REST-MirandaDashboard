@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.bookingsController = void 0;
 const express_1 = require("express");
 const bookingService_1 = require("../services/bookingService");
-const bookingsController = (0, express_1.Router)();
-bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController = (0, express_1.Router)();
+exports.bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookingsData = yield bookingService_1.bookingService.get();
         res.json(bookingsData);
@@ -22,7 +23,7 @@ bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, fun
     }
     ;
 }));
-bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.getById(req.params.id);
         res.json(response);
@@ -31,7 +32,7 @@ bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
         res.status(400).json(`${error}`);
     }
 }));
-bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.post(req.body);
         res.json(response);
@@ -40,7 +41,7 @@ bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(500).json('Internal Server Error');
     }
 }));
-bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield bookingService_1.bookingService.delete(req.params.id);
         res.json('The booking was correctly deleted.');
@@ -49,7 +50,7 @@ bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0
         res.status(400).json(`${error}`);
     }
 }));
-bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield bookingService_1.bookingService.put(req.params.id, req.body);
         res.json(response);
@@ -58,5 +59,4 @@ bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
         res.status(400).json(`${error}`);
     }
 }));
-exports.default = bookingsController;
 //# sourceMappingURL=bookingsController.js.map

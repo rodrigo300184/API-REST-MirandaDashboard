@@ -24,8 +24,8 @@ function get() {
 }
 function getById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const room = yield roomsData_json_1.default.filter((element) => { return element.id === id; });
-        if (room.length === 0)
+        const room = yield roomsData_json_1.default.find((element) => { return element.id === id; });
+        if (!room)
             throw new Error("Error obtaining the room or the room doesn't exist");
         return room;
     });

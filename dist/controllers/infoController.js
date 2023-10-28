@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.infoController = void 0;
 const express_1 = require("express");
 const infoService_1 = require("../services/infoService");
-const infoController = (0, express_1.Router)();
-infoController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.infoController = (0, express_1.Router)();
+exports.infoController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const info = yield infoService_1.infoService.get();
         res.json(info);
@@ -21,5 +22,4 @@ infoController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, functio
         return res.status(444).json(`${error}`);
     }
 }));
-exports.default = infoController;
 //# sourceMappingURL=infoController.js.map
