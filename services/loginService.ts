@@ -14,7 +14,7 @@ async function login(email: string, password: string) {
 }
 
 function signJWT(payload: { email: string }) {
-    const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+    const token = jwt.sign(payload, secret);
     return { payload, token };
 }
 
