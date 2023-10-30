@@ -15,7 +15,7 @@ const bookingService_1 = require("../services/bookingService");
 exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const bookingsData = yield bookingService_1.bookingService.get();
+        const bookingsData = yield bookingService_1.bookingService.fetchAll();
         res.json(bookingsData);
     }
     catch (error) {
@@ -25,7 +25,7 @@ exports.bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, voi
 }));
 exports.bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield bookingService_1.bookingService.getById(req.params.id);
+        const response = yield bookingService_1.bookingService.fetchOne(req.params.id);
         res.json(response);
     }
     catch (error) {
@@ -34,7 +34,7 @@ exports.bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield bookingService_1.bookingService.post(req.body);
+        const response = yield bookingService_1.bookingService.createOne(req.body);
         res.json(response);
     }
     catch (error) {
@@ -43,7 +43,7 @@ exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, voi
 }));
 exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield bookingService_1.bookingService.delete(req.params.id);
+        yield bookingService_1.bookingService.deleteOne(req.params.id);
         res.json('The booking was correctly deleted.');
     }
     catch (error) {
@@ -52,7 +52,7 @@ exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0
 }));
 exports.bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield bookingService_1.bookingService.put(req.params.id, req.body);
+        const response = yield bookingService_1.bookingService.editOne(req.params.id, req.body);
         res.json(response);
     }
     catch (error) {

@@ -7,6 +7,19 @@ import { authMiddleware } from './middlewares/login';
 import { infoController } from './controllers/infoController';
 import { contactController } from './controllers/contactController';
 import cors from 'cors';
+import mongoose from 'mongoose';
+
+; (async () => {
+    try {
+        await mongoose.connect('mongodb://127.0.0.1:27017', {
+            dbName: 'Miranda_API',
+        })
+        console.log('Conectado a Mongo')
+    } catch (error) {
+        console.log(error);
+     }
+})()
+
 
 export const app: Express = express();
 

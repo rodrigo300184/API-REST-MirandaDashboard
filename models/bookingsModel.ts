@@ -11,3 +11,5 @@ export interface BookingInterface {
     "status": string,
     "photos": string[]
 }
+
+

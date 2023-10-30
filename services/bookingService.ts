@@ -1,41 +1,55 @@
 import bookingsData from '../assets/data/bookingsData.json';
 import { BookingInterface } from '../models/bookingsModel';
+import mongoose from 'mongoose';
 
-async function get() {
-  const getAllBoookings = await bookingsData;
+const bookingsSchema = new mongoose.Schema({
+  "id": String,
+  "guest": String,
+  "phone_number": String,
+  "order_date": String,
+  "check_in": String,
+  "check_out": String,
+  "special_request": String,
+  "room_type": String,
+  "room_number": String,
+  "status": String,
+  "photos": [String]
+});
+
+const Bookings = mongoose.model('Bookings', bookingsSchema);
+
+
+async function fetchAll() {
+  const getAllBoookings = await Bookings.find();
   if (!getAllBoookings) throw new Error('Error obtaining all bookings');
   return getAllBoookings;
 }
 
-async function getById(id: string) {
-  const booking = await bookingsData.find((element) => { return element.id === id })
+async function fetchOne(id: string) {
+  const booking = await Bookings.find({ id: id });
   if (!booking) throw new Error("Error obtaining the booking or the booking doesn't exist");
   return booking;
 }
 
-async function post(booking: BookingInterface) {
-  await bookingsData.push(booking);
-  return bookingsData;
+async function createOne(booking: BookingInterface) {
+  const newBooking = await Bookings.create(booking);
+  return newBooking;
 }
 
-async function put(id: string, update: Partial<BookingInterface>) {
-  const index = bookingsData.findIndex((element) => element.id === id)
-  if (index === -1) throw new Error("The booking doesn't exist or couldn't be updated");
-  bookingsData[index] = { ...bookingsData[index], ...update };
-  return bookingsData;
+async function editOne(id: string, update: Partial<BookingInterface>) {
+  const updatedBooking = await Bookings.findByIdAndUpdate(id, update);
+  return updatedBooking;
 }
 
-async function _delete(id: string) {
-  const index = bookingsData.findIndex((element) => element.id === id)
-  if (index === -1) throw new Error("The booking doesn't exist or couldn't be deleted");
-  bookingsData.splice(index, 1)
-  return
+async function deleteOne(id: string) {
+  const deletedBooking = await Bookings.findByIdAndDelete(id);
+  return deletedBooking;
 }
 
 export const bookingService = {
-  get,
-  getById,
-  post,
-  put,
-  delete: _delete,
+  fetchAll,
+  fetchOne,
+  createOne,
+  editOne,
+  deleteOne,
 };

@@ -13,52 +13,60 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
-const bookingsData_json_1 = __importDefault(require("../assets/data/bookingsData.json"));
-function get() {
+const mongoose_1 = __importDefault(require("mongoose"));
+const bookingsSchema = new mongoose_1.default.Schema({
+    "id": String,
+    "guest": String,
+    "phone_number": String,
+    "order_date": String,
+    "check_in": String,
+    "check_out": String,
+    "special_request": String,
+    "room_type": String,
+    "room_number": String,
+    "status": String,
+    "photos": [String]
+});
+const Bookings = mongoose_1.default.model('Bookings', bookingsSchema);
+function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllBoookings = yield bookingsData_json_1.default;
+        const getAllBoookings = yield Bookings.find();
         if (!getAllBoookings)
             throw new Error('Error obtaining all bookings');
         return getAllBoookings;
     });
 }
-function getById(id) {
+function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield bookingsData_json_1.default.find((element) => { return element.id === id; });
+        const booking = yield Bookings.find({ id: id });
         if (!booking)
             throw new Error("Error obtaining the booking or the booking doesn't exist");
         return booking;
     });
 }
-function post(booking) {
+function createOne(booking) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield bookingsData_json_1.default.push(booking);
-        return bookingsData_json_1.default;
+        const newBooking = yield Bookings.create(booking);
+        return newBooking;
     });
 }
-function put(id, update) {
+function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = bookingsData_json_1.default.findIndex((element) => element.id === id);
-        if (index === -1)
-            throw new Error("The booking doesn't exist or couldn't be updated");
-        bookingsData_json_1.default[index] = Object.assign(Object.assign({}, bookingsData_json_1.default[index]), update);
-        return bookingsData_json_1.default;
+        const updatedBooking = yield Bookings.findByIdAndUpdate(id, update);
+        return updatedBooking;
     });
 }
-function _delete(id) {
+function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = bookingsData_json_1.default.findIndex((element) => element.id === id);
-        if (index === -1)
-            throw new Error("The booking doesn't exist or couldn't be deleted");
-        bookingsData_json_1.default.splice(index, 1);
-        return;
+        const deletedBooking = yield Bookings.findByIdAndDelete(id);
+        return deletedBooking;
     });
 }
 exports.bookingService = {
-    get,
-    getById,
-    post,
-    put,
-    delete: _delete,
+    fetchAll,
+    fetchOne,
+    createOne,
+    editOne,
+    deleteOne,
 };
 //# sourceMappingURL=bookingService.js.map
