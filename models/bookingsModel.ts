@@ -1,15 +1,17 @@
-export interface BookingInterface {
-    "id": string,
-    "guest": string,
-    "phone_number": string,
-    "order_date": string,
-    "check_in": string,
-    "check_out": string,
-    "special_request": string,
-    "room_type": string,
-    "room_number": string,
-    "status": string,
-    "photos": string[]
-}
+import mongoose from 'mongoose';
 
+const bookingsSchema = new mongoose.Schema({
+  "id": String,
+  "guest": String,
+  "phone_number": String,
+  "order_date": String,
+  "check_in": String,
+  "check_out": String,
+  "special_request": String,
+  "room_type": String,
+  "room_number": String,
+  "status": String,
+  "photos": [String]
+});
 
+export const Bookings = mongoose.model('Bookings', bookingsSchema);

@@ -1,5 +1,5 @@
 import usersData from '../assets/data/employee_data.json';
-import { UsersInterface } from '../models/usersModel';
+import { UsersInterface } from '../interfaces/usersInterface';
 
 async function get() {
   const getAllUsers = await usersData;

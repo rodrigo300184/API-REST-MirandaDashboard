@@ -1,5 +1,5 @@
 import roomsData from '../assets/data/roomsData.json';
-import { RoomInterface } from '../models/roomsModel'
+import { RoomInterface } from '../interfaces/roomsInterface'
 
 async function get() {
   const getAllRooms = await roomsData;

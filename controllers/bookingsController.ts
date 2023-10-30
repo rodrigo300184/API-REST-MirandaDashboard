@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { BookingInterface } from '../models/bookingsModel';
+import { BookingInterface } from '../interfaces/bookingsInterface';
 import { bookingService } from '../services/bookingService';
 
 

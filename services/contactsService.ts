@@ -1,5 +1,5 @@
 import contactData from '../assets/data/client_review.json';
-import { ContactInterfase } from '../models/contactsModel';
+import { ContactInterfase } from '../interfaces/contactsInterface';
 
 async function get() {
   const getAllContacts = await contactData;
