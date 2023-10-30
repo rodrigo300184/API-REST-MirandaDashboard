@@ -27,7 +27,7 @@ function login(email, password) {
     });
 }
 function signJWT(payload) {
-    const token = jsonwebtoken_1.default.sign(payload, secret, { expiresIn: '1h' });
+    const token = jsonwebtoken_1.default.sign(payload, secret);
     return { payload, token };
 }
 function verifyJWT(token) {
