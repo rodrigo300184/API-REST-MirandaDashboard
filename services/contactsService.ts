@@ -20,13 +20,13 @@ async function createOne(contact: ContactInterfase) {
 }
 
 async function editOne(id: string, update: Partial<ContactInterfase>) {
-  const updatedContact = Contacts.findByIdAndUpdate(id, update);
+  const updatedContact = await Contacts.findByIdAndUpdate(id, update);
   if (!updatedContact) throw new Error("The contact doesn't exist or couldn't be updated");
   return updatedContact;
 }
 
 async function deleteOne(id: string) {
-  const deletedContact = Contacts.findByIdAndDelete(id);
+  const deletedContact = await Contacts.findByIdAndDelete(id);
   if (!deletedContact) throw new Error("The contact doesn't exist or couldn't be deleted");
   return deletedContact;
 }

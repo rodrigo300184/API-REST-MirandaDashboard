@@ -1,41 +1,40 @@
-import usersData from '../assets/data/employee_data.json';
+import { Users } from '../models/usersModel';
 import { UsersInterface } from '../interfaces/usersInterface';
 
-async function get() {
-  const getAllUsers = await usersData;
+async function fetchAll() {
+  const getAllUsers = await Users.find();
   if (!getAllUsers) throw new Error('Error obtaining all users');
   return getAllUsers;
 }
 
-async function getById(id: string) {
-  const user = await usersData.find((element) => { return element.employee_id === id })
+async function fetchOne(id: string) {
+  const user = await Users.findById(id);
   if (!user) throw new Error("Error obtaining the user or the user doesn't exist");
   return user;
 }
 
-async function post(newUser: UsersInterface) {
-  await usersData.push(newUser);
-  return usersData;
+async function createOne(user: UsersInterface) {
+  const newUser = await Users.create(user);
+  if(!newUser) throw new Error("The user couldn't be created")
+  return newUser;
 }
 
-async function put(id: string, update: Partial<UsersInterface>) {
-  const index = usersData.findIndex((element) => element.employee_id === id)
-  if (index === -1) throw new Error("The user doesn't exist or couldn't be updated");
-  usersData[index] = { ...usersData[index], ...update };
-  return usersData;
+async function editOne(id: string, update: Partial<UsersInterface>) {
+  const updatedUser = await Users.findByIdAndUpdate(id,update);
+  if (!updatedUser) throw new Error("The user doesn't exist or couldn't be updated");
+  return updatedUser;
 }
 
-async function _delete(id: string) {
-  const index = usersData.findIndex((element) => element.employee_id === id)
-  if (index === -1) throw new Error("The user doesn't exist or couldn't be deleted");
-  usersData.splice(index, 1)
-  return
+async function deleteOne(id: string) {
+  const deletedUser = await Users.findByIdAndDelete(id);
+  if (!deletedUser) throw new Error("The user doesn't exist or couldn't be deleted");
+  return deletedUser;
 }
 
 export const usersService = {
-  get,
-  getById,
-  post,
-  put,
-  delete: _delete,
+  fetchAll,
+  fetchOne,
+  createOne,
+  editOne,
+  deleteOne,
 };

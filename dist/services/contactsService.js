@@ -37,7 +37,7 @@ function createOne(contact) {
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedContact = contactsModel_1.Contacts.findByIdAndUpdate(id, update);
+        const updatedContact = yield contactsModel_1.Contacts.findByIdAndUpdate(id, update);
         if (!updatedContact)
             throw new Error("The contact doesn't exist or couldn't be updated");
         return updatedContact;
@@ -45,7 +45,7 @@ function editOne(id, update) {
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedContact = contactsModel_1.Contacts.findByIdAndDelete(id);
+        const deletedContact = yield contactsModel_1.Contacts.findByIdAndDelete(id);
         if (!deletedContact)
             throw new Error("The contact doesn't exist or couldn't be deleted");
         return deletedContact;

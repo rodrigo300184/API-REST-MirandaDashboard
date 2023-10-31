@@ -15,7 +15,7 @@ const usersService_1 = require("../services/usersService");
 exports.usersController = (0, express_1.Router)();
 exports.usersController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const usersData = yield usersService_1.usersService.get();
+        const usersData = yield usersService_1.usersService.fetchAll();
         res.json(usersData);
     }
     catch (error) {
@@ -25,7 +25,7 @@ exports.usersController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.usersController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield usersService_1.usersService.getById(req.params.id);
+        const response = yield usersService_1.usersService.fetchOne(req.params.id);
         res.json(response);
     }
     catch (error) {
@@ -34,7 +34,7 @@ exports.usersController.get('/:id', (req, res) => __awaiter(void 0, void 0, void
 }));
 exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield usersService_1.usersService.post(req.body);
+        const response = yield usersService_1.usersService.createOne(req.body);
         res.json(response);
     }
     catch (error) {
@@ -43,7 +43,7 @@ exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.usersController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield usersService_1.usersService.delete(req.params.id);
+        yield usersService_1.usersService.deleteOne(req.params.id);
         res.json('The user was correctly deleted.');
     }
     catch (error) {
@@ -52,7 +52,7 @@ exports.usersController.delete('/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 exports.usersController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield usersService_1.usersService.put(req.params.id, req.body);
+        const response = yield usersService_1.usersService.editOne(req.params.id, req.body);
         res.json(response);
     }
     catch (error) {

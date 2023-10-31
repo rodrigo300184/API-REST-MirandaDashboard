@@ -8,57 +8,54 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersService = void 0;
-const employee_data_json_1 = __importDefault(require("../assets/data/employee_data.json"));
-function get() {
+const usersModel_1 = require("../models/usersModel");
+function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllUsers = yield employee_data_json_1.default;
+        const getAllUsers = yield usersModel_1.Users.find();
         if (!getAllUsers)
             throw new Error('Error obtaining all users');
         return getAllUsers;
     });
 }
-function getById(id) {
+function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = yield employee_data_json_1.default.find((element) => { return element.employee_id === id; });
+        const user = yield usersModel_1.Users.findById(id);
         if (!user)
             throw new Error("Error obtaining the user or the user doesn't exist");
         return user;
     });
 }
-function post(newUser) {
+function createOne(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield employee_data_json_1.default.push(newUser);
-        return employee_data_json_1.default;
+        const newUser = yield usersModel_1.Users.create(user);
+        if (!newUser)
+            throw new Error("The user couldn't be created");
+        return newUser;
     });
 }
-function put(id, update) {
+function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = employee_data_json_1.default.findIndex((element) => element.employee_id === id);
-        if (index === -1)
+        const updatedUser = yield usersModel_1.Users.findByIdAndUpdate(id, update);
+        if (!updatedUser)
             throw new Error("The user doesn't exist or couldn't be updated");
-        employee_data_json_1.default[index] = Object.assign(Object.assign({}, employee_data_json_1.default[index]), update);
-        return employee_data_json_1.default;
+        return updatedUser;
     });
 }
-function _delete(id) {
+function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = employee_data_json_1.default.findIndex((element) => element.employee_id === id);
-        if (index === -1)
+        const deletedUser = yield usersModel_1.Users.findByIdAndDelete(id);
+        if (!deletedUser)
             throw new Error("The user doesn't exist or couldn't be deleted");
-        employee_data_json_1.default.splice(index, 1);
-        return;
+        return deletedUser;
     });
 }
 exports.usersService = {
-    get,
-    getById,
-    post,
-    put,
-    delete: _delete,
+    fetchAll,
+    fetchOne,
+    createOne,
+    editOne,
+    deleteOne,
 };
 //# sourceMappingURL=usersService.js.map
