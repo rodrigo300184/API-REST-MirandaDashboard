@@ -8,57 +8,54 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.roomsService = void 0;
-const roomsData_json_1 = __importDefault(require("../assets/data/roomsData.json"));
-function get() {
+const roomsModel_1 = require("../models/roomsModel");
+function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllRooms = yield roomsData_json_1.default;
+        const getAllRooms = yield roomsModel_1.Rooms.find();
         if (!getAllRooms)
             throw new Error('Error obtaining all rooms');
         return getAllRooms;
     });
 }
-function getById(id) {
+function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const room = yield roomsData_json_1.default.find((element) => { return element.id === id; });
+        const room = yield roomsModel_1.Rooms.findById(id);
         if (!room)
             throw new Error("Error obtaining the room or the room doesn't exist");
         return room;
     });
 }
-function post(newRoom) {
+function createOne(room) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield roomsData_json_1.default.push(newRoom);
-        return roomsData_json_1.default;
+        const newRoom = yield roomsModel_1.Rooms.create(room);
+        if (!newRoom)
+            throw new Error("The room couldn't be created");
+        return newRoom;
     });
 }
-function put(id, update) {
+function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = roomsData_json_1.default.findIndex((element) => element.id === id);
-        if (index === -1)
+        const updatedRoom = roomsModel_1.Rooms.findByIdAndUpdate(id, update);
+        if (!updatedRoom)
             throw new Error("The room doesn't exist or couldn't be updated");
-        roomsData_json_1.default[index] = Object.assign(Object.assign({}, roomsData_json_1.default[index]), update);
-        return roomsData_json_1.default;
+        return updatedRoom;
     });
 }
-function _delete(id) {
+function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = roomsData_json_1.default.findIndex((element) => element.id === id);
-        if (index === -1)
+        const deletedRoom = roomsModel_1.Rooms.findByIdAndDelete(id);
+        if (!deletedRoom)
             throw new Error("The room doesn't exist or couldn't be deleted");
-        roomsData_json_1.default.splice(index, 1);
-        return;
+        return deletedRoom;
     });
 }
 exports.roomsService = {
-    get,
-    getById,
-    post,
-    put,
-    delete: _delete,
+    fetchAll,
+    fetchOne,
+    createOne,
+    editOne,
+    deleteOne,
 };
 //# sourceMappingURL=roomsService.js.map

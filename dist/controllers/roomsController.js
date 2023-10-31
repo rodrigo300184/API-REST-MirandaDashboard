@@ -15,7 +15,7 @@ const roomsService_1 = require("../services/roomsService");
 exports.roomsController = (0, express_1.Router)();
 exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const roomsData = yield roomsService_1.roomsService.get();
+        const roomsData = yield roomsService_1.roomsService.fetchAll();
         res.json(roomsData);
     }
     catch (error) {
@@ -25,7 +25,7 @@ exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.roomsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield roomsService_1.roomsService.getById(req.params.id);
+        const response = yield roomsService_1.roomsService.fetchOne(req.params.id);
         res.json(response);
     }
     catch (error) {
@@ -34,7 +34,7 @@ exports.roomsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void
 }));
 exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield roomsService_1.roomsService.post(req.body);
+        const response = yield roomsService_1.roomsService.createOne(req.body);
         res.json(response);
     }
     catch (error) {
@@ -43,7 +43,7 @@ exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.roomsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield roomsService_1.roomsService.delete(req.params.id);
+        yield roomsService_1.roomsService.deleteOne(req.params.id);
         res.json('The room was correctly deleted.');
     }
     catch (error) {
@@ -52,7 +52,7 @@ exports.roomsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 exports.roomsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield roomsService_1.roomsService.put(req.params.id, req.body);
+        const response = yield roomsService_1.roomsService.editOne(req.params.id, req.body);
         res.json(response);
     }
     catch (error) {

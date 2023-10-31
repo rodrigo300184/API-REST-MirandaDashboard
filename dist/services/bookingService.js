@@ -8,29 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
-const bookingsSchema = new mongoose_1.default.Schema({
-    "id": String,
-    "guest": String,
-    "phone_number": String,
-    "order_date": String,
-    "check_in": String,
-    "check_out": String,
-    "special_request": String,
-    "room_type": String,
-    "room_number": String,
-    "status": String,
-    "photos": [String]
-});
-const Bookings = mongoose_1.default.model('Bookings', bookingsSchema);
+const bookingsModel_1 = require("../models/bookingsModel");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllBoookings = yield Bookings.find();
+        const getAllBoookings = yield bookingsModel_1.Bookings.find();
         if (!getAllBoookings)
             throw new Error('Error obtaining all bookings');
         return getAllBoookings;
@@ -38,7 +21,7 @@ function fetchAll() {
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield Bookings.find({ id: id });
+        const booking = yield bookingsModel_1.Bookings.find({ id: id });
         if (!booking)
             throw new Error("Error obtaining the booking or the booking doesn't exist");
         return booking;
@@ -46,19 +29,25 @@ function fetchOne(id) {
 }
 function createOne(booking) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newBooking = yield Bookings.create(booking);
+        const newBooking = yield bookingsModel_1.Bookings.create(booking);
+        if (!newBooking)
+            throw new Error("The booking couldn't be created");
         return newBooking;
     });
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedBooking = yield Bookings.findByIdAndUpdate(id, update);
+        const updatedBooking = yield bookingsModel_1.Bookings.findByIdAndUpdate(id, update);
+        if (!updatedBooking)
+            throw new Error("The booking doesn't exist or couldn't be updated");
         return updatedBooking;
     });
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedBooking = yield Bookings.findByIdAndDelete(id);
+        const deletedBooking = yield bookingsModel_1.Bookings.findByIdAndDelete(id);
+        if (!deletedBooking)
+            throw new Error("The booking doesn't exist or couldn't be deleted");
         return deletedBooking;
     });
 }
