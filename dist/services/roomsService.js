@@ -37,7 +37,7 @@ function createOne(room) {
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedRoom = roomsModel_1.Rooms.findByIdAndUpdate(id, update);
+        const updatedRoom = yield roomsModel_1.Rooms.findByIdAndUpdate(id, update);
         if (!updatedRoom)
             throw new Error("The room doesn't exist or couldn't be updated");
         return updatedRoom;
@@ -45,7 +45,7 @@ function editOne(id, update) {
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedRoom = roomsModel_1.Rooms.findByIdAndDelete(id);
+        const deletedRoom = yield roomsModel_1.Rooms.findByIdAndDelete(id);
         if (!deletedRoom)
             throw new Error("The room doesn't exist or couldn't be deleted");
         return deletedRoom;

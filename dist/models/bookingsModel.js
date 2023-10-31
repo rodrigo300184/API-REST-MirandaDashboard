@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Bookings = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const bookingsSchema = new mongoose_1.default.Schema({
-    "id": String,
     "guest": String,
     "phone_number": String,
     "order_date": String,
     "check_in": String,
     "check_out": String,
     "special_request": String,
+    "room_id": String,
     "room_type": String,
     "room_number": String,
     "status": String,

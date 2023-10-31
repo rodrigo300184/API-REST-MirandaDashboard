@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const roomsSchema = new mongoose.Schema({
-    "id": String,
     "room_photo": String,
     "room_type": String,
     "amenities": [Object],

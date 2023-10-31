@@ -6,6 +6,7 @@ export interface BookingInterface {
     "check_in": string,
     "check_out": string,
     "special_request": string,
+    "room_id": String,
     "room_type": string,
     "room_number": string,
     "status": string,

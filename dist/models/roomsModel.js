@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Rooms = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const roomsSchema = new mongoose_1.default.Schema({
-    "id": String,
     "room_photo": String,
     "room_type": String,
     "amenities": [Object],

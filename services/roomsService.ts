@@ -20,13 +20,13 @@ async function createOne(room: RoomInterface) {
 }
 
 async function editOne(id: string, update: Partial<RoomInterface>) {
-  const updatedRoom = Rooms.findByIdAndUpdate(id,update)
+  const updatedRoom = await Rooms.findByIdAndUpdate(id,update)
   if (!updatedRoom) throw new Error("The room doesn't exist or couldn't be updated");
   return updatedRoom;
 }
 
 async function deleteOne(id: string) {
-  const deletedRoom = Rooms.findByIdAndDelete(id);
+  const deletedRoom = await Rooms.findByIdAndDelete(id);
   if (!deletedRoom) throw new Error("The room doesn't exist or couldn't be deleted");
   return deletedRoom;
 }
