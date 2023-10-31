@@ -1,41 +1,40 @@
-import contactData from '../assets/data/client_review.json';
+import { Contacts } from '../models/contactsModel';
 import { ContactInterfase } from '../interfaces/contactsInterface';
 
-async function get() {
-  const getAllContacts = await contactData;
+async function fetchAll() {
+  const getAllContacts = await Contacts.find();
   if (!getAllContacts) throw new Error('Error obtaining all contacts');
   return getAllContacts;
 }
 
-async function getById(id: string) {
-  const contact = await contactData.find((element) => { return element.id === id })
+async function fetchOne(id: string) {
+  const contact = await Contacts.findById(id);
   if (!contact) throw new Error("Error obtaining the contact or the contact doesn't exist");
   return contact;
 }
 
-async function post(newContact: ContactInterfase) {
-  await contactData.push(newContact);
-  return contactData;
+async function createOne(contact: ContactInterfase) {
+  const newContact = await Contacts.create(contact);
+  if (!newContact) throw new Error("The contact couldn't be created");
+  return newContact;
 }
 
-async function put(id: string, update: Partial<ContactInterfase>) {
-  const index = contactData.findIndex((element) => element.id === id)
-  if (index === -1) throw new Error("The contact doesn't exist or couldn't be updated");
-  contactData[index] = { ...contactData[index], ...update };
-  return contactData;
+async function editOne(id: string, update: Partial<ContactInterfase>) {
+  const updatedContact = Contacts.findByIdAndUpdate(id, update);
+  if (!updatedContact) throw new Error("The contact doesn't exist or couldn't be updated");
+  return updatedContact;
 }
 
-async function _delete(id: string) {
-  const index = contactData.findIndex((element) => element.id === id)
-  if (index === -1) throw new Error("The contact doesn't exist or couldn't be deleted");
-  contactData.splice(index, 1)
-  return
+async function deleteOne(id: string) {
+  const deletedContact = Contacts.findByIdAndDelete(id);
+  if (!deletedContact) throw new Error("The contact doesn't exist or couldn't be deleted");
+  return deletedContact;
 }
 
 export const contactsService = {
-  get,
-  getById,
-  post,
-  put,
-  delete: _delete,
+  fetchAll,
+  fetchOne,
+  createOne,
+  editOne,
+  deleteOne,
 };

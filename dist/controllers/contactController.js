@@ -15,7 +15,7 @@ const contactsService_1 = require("../services/contactsService");
 exports.contactController = (0, express_1.Router)();
 exports.contactController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const usersData = yield contactsService_1.contactsService.get();
+        const usersData = yield contactsService_1.contactsService.fetchAll();
         res.json(usersData);
     }
     catch (error) {
@@ -25,7 +25,7 @@ exports.contactController.get('/', (_req, res) => __awaiter(void 0, void 0, void
 }));
 exports.contactController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield contactsService_1.contactsService.getById(req.params.id);
+        const response = yield contactsService_1.contactsService.fetchOne(req.params.id);
         res.json(response);
     }
     catch (error) {
@@ -34,7 +34,7 @@ exports.contactController.get('/:id', (req, res) => __awaiter(void 0, void 0, vo
 }));
 exports.contactController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield contactsService_1.contactsService.post(req.body);
+        const response = yield contactsService_1.contactsService.createOne(req.body);
         res.json(response);
     }
     catch (error) {
@@ -43,7 +43,7 @@ exports.contactController.post('/', (req, res) => __awaiter(void 0, void 0, void
 }));
 exports.contactController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield contactsService_1.contactsService.delete(req.params.id);
+        yield contactsService_1.contactsService.deleteOne(req.params.id);
         res.json('The contact was correctly deleted.');
     }
     catch (error) {
@@ -52,7 +52,7 @@ exports.contactController.delete('/:id', (req, res) => __awaiter(void 0, void 0,
 }));
 exports.contactController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield contactsService_1.contactsService.put(req.params.id, req.body);
+        const response = yield contactsService_1.contactsService.editOne(req.params.id, req.body);
         res.json(response);
     }
     catch (error) {

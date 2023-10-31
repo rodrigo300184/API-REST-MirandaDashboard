@@ -8,57 +8,54 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactsService = void 0;
-const client_review_json_1 = __importDefault(require("../assets/data/client_review.json"));
-function get() {
+const contactsModel_1 = require("../models/contactsModel");
+function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllContacts = yield client_review_json_1.default;
+        const getAllContacts = yield contactsModel_1.Contacts.find();
         if (!getAllContacts)
             throw new Error('Error obtaining all contacts');
         return getAllContacts;
     });
 }
-function getById(id) {
+function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const contact = yield client_review_json_1.default.find((element) => { return element.id === id; });
+        const contact = yield contactsModel_1.Contacts.findById(id);
         if (!contact)
             throw new Error("Error obtaining the contact or the contact doesn't exist");
         return contact;
     });
 }
-function post(newContact) {
+function createOne(contact) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield client_review_json_1.default.push(newContact);
-        return client_review_json_1.default;
+        const newContact = yield contactsModel_1.Contacts.create(contact);
+        if (!newContact)
+            throw new Error("The contact couldn't be created");
+        return newContact;
     });
 }
-function put(id, update) {
+function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = client_review_json_1.default.findIndex((element) => element.id === id);
-        if (index === -1)
+        const updatedContact = contactsModel_1.Contacts.findByIdAndUpdate(id, update);
+        if (!updatedContact)
             throw new Error("The contact doesn't exist or couldn't be updated");
-        client_review_json_1.default[index] = Object.assign(Object.assign({}, client_review_json_1.default[index]), update);
-        return client_review_json_1.default;
+        return updatedContact;
     });
 }
-function _delete(id) {
+function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const index = client_review_json_1.default.findIndex((element) => element.id === id);
-        if (index === -1)
+        const deletedContact = contactsModel_1.Contacts.findByIdAndDelete(id);
+        if (!deletedContact)
             throw new Error("The contact doesn't exist or couldn't be deleted");
-        client_review_json_1.default.splice(index, 1);
-        return;
+        return deletedContact;
     });
 }
 exports.contactsService = {
-    get,
-    getById,
-    post,
-    put,
-    delete: _delete,
+    fetchAll,
+    fetchOne,
+    createOne,
+    editOne,
+    deleteOne,
 };
 //# sourceMappingURL=contactsService.js.map

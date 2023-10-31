@@ -6,7 +6,7 @@ export const contactController = Router();
 
 contactController.get('/', async (_req: Request, res: Response) => {
     try {
-        const usersData = await contactsService.get();
+        const usersData = await contactsService.fetchAll();
         res.json(usersData);
     } catch (error) {
         res.status(500).json(`${error}`);
@@ -15,7 +15,7 @@ contactController.get('/', async (_req: Request, res: Response) => {
 
 contactController.get('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await contactsService.getById(req.params.id);
+        const response = await contactsService.fetchOne(req.params.id);
         res.json(response)
     } catch (error) {
         res.status(400).json(`${error}`);
@@ -24,7 +24,7 @@ contactController.get('/:id', async (req: Request, res: Response) => {
 
 contactController.post('/', async (req: Request, res: Response) => {
     try {
-        const response = await contactsService.post(req.body);
+        const response = await contactsService.createOne(req.body);
         res.json(response);
     } catch (error) {
         res.status(500).json('Internal Server Error');
@@ -33,7 +33,7 @@ contactController.post('/', async (req: Request, res: Response) => {
 
 contactController.delete('/:id', async (req: Request, res: Response) => {
     try {
-        await contactsService.delete(req.params.id)
+        await contactsService.deleteOne(req.params.id)
         res.json('The contact was correctly deleted.')
     } catch (error) {
         res.status(400).json(`${error}`);
@@ -42,7 +42,7 @@ contactController.delete('/:id', async (req: Request, res: Response) => {
 
 contactController.put('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await contactsService.put(req.params.id, req.body)
+        const response = await contactsService.editOne(req.params.id, req.body)
         res.json(response)
     } catch (error) {
         res.status(400).json(`${error}`);
