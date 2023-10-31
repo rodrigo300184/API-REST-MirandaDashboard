@@ -1,41 +1,40 @@
-import roomsData from '../assets/data/roomsData.json';
+import { Rooms } from '../models/roomsModel';
 import { RoomInterface } from '../interfaces/roomsInterface'
 
-async function get() {
-  const getAllRooms = await roomsData;
+async function fetchAll() {
+  const getAllRooms = await Rooms.find();
   if (!getAllRooms) throw new Error('Error obtaining all rooms');
   return getAllRooms;
 }
 
-async function getById(id: string) {
-  const room = await roomsData.find((element) => { return element.id === id })
+async function fetchOne(id: string) {
+  const room = await Rooms.findById(id);
   if (!room) throw new Error("Error obtaining the room or the room doesn't exist");
   return room;
 }
 
-async function post(newRoom: RoomInterface) {
-  await roomsData.push(newRoom);
-  return roomsData;
+async function createOne(room: RoomInterface) {
+  const newRoom = await Rooms.create(room);
+  if (!newRoom) throw new Error("The room couldn't be created");
+  return newRoom;
 }
 
-async function put(id: string, update: Partial<RoomInterface>) {
-  const index = roomsData.findIndex((element) => element.id === id)
-  if (index === -1) throw new Error("The room doesn't exist or couldn't be updated");
-  roomsData[index] = { ...roomsData[index], ...update };
-  return roomsData;
+async function editOne(id: string, update: Partial<RoomInterface>) {
+  const updatedRoom = Rooms.findByIdAndUpdate(id,update)
+  if (!updatedRoom) throw new Error("The room doesn't exist or couldn't be updated");
+  return updatedRoom;
 }
 
-async function _delete(id: string) {
-  const index = roomsData.findIndex((element) => element.id === id)
-  if (index === -1) throw new Error("The room doesn't exist or couldn't be deleted");
-  roomsData.splice(index, 1)
-  return
+async function deleteOne(id: string) {
+  const deletedRoom = Rooms.findByIdAndDelete(id);
+  if (!deletedRoom) throw new Error("The room doesn't exist or couldn't be deleted");
+  return deletedRoom;
 }
 
 export const roomsService = {
-  get,
-  getById,
-  post,
-  put,
-  delete: _delete,
+  fetchAll,
+  fetchOne,
+  createOne,
+  editOne,
+  deleteOne,
 };

@@ -1,6 +1,4 @@
-interface Iamenities { "name": string, "description": string }
-
-
+export interface Iamenities { "name": string, "description": string }
 
 export interface RoomInterface {
     "id": string,
