@@ -8,12 +8,13 @@ import { infoController } from './controllers/infoController';
 import { contactController } from './controllers/contactController';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import { ScriptSeed } from './assets/data/seed';
-import { Bookings } from './models/bookingsModel';
+import { ScriptSeed } from './seed';
+
+const UrlMongo: string = process.env.URL_ATLAS || '';
 
 (async () => {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017', {
+        await mongoose.connect(UrlMongo, {
             dbName: 'Miranda_API',
         })
         console.log('Conectado a Mongo')
@@ -22,7 +23,7 @@ import { Bookings } from './models/bookingsModel';
      }
 })()
 
-ScriptSeed();
+
 
 export const app: Express = express();
 

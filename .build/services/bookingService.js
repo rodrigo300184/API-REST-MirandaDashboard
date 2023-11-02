@@ -48,7 +48,7 @@ function deleteOne(id) {
         const deletedBooking = yield bookingsModel_1.Bookings.findByIdAndDelete(id);
         if (!deletedBooking)
             throw new Error("The booking doesn't exist or couldn't be deleted");
-        return deletedBooking;
+        return;
     });
 }
 exports.bookingService = {

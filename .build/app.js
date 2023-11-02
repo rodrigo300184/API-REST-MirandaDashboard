@@ -23,8 +23,6 @@ const infoController_1 = require("./controllers/infoController");
 const contactController_1 = require("./controllers/contactController");
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const seed_1 = require("./assets/data/seed");
-;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect('mongodb://127.0.0.1:27017', {
@@ -36,7 +34,6 @@ const seed_1 = require("./assets/data/seed");
         console.log(error);
     }
 }))();
-(0, seed_1.ScriptSeed)();
 exports.app = (0, express_1.default)();
 // middlewares
 exports.app.use((0, cors_1.default)());

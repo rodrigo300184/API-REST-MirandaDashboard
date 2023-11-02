@@ -8,11 +8,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ScriptSeed = void 0;
 const faker_1 = require("@faker-js/faker");
 const roomsModel_1 = require("../../models/roomsModel");
 const bookingsModel_1 = require("../../models/bookingsModel");
+const mongoose_1 = __importDefault(require("mongoose"));
+const UrlMongo = process.env.URL_ATLAS || '';
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield mongoose_1.default.connect(UrlMongo, {
+            dbName: 'Miranda_API',
+        });
+        console.log('Conectado a Mongo');
+    }
+    catch (error) {
+        console.log(error);
+    }
+}))();
+ScriptSeed();
 function ScriptSeed() {
     return __awaiter(this, void 0, void 0, function* () {
         const quantity = 20;
@@ -22,7 +39,7 @@ function ScriptSeed() {
             const room = yield roomsModel_1.Rooms.create(newRoom);
             rooms.push(room);
         }
-        for (let i = 0; i < quantity; i++) {
+        for (let j = 0; j < quantity; j++) {
             const randomRoom = rooms[Math.floor(Math.random() * (quantity - 1))];
             const booking = createRandomBooking(randomRoom);
             yield bookingsModel_1.Bookings.create(booking);
@@ -88,7 +105,9 @@ function ScriptSeed() {
                     roomType === 'Suite' ? 370 : 180;
             const offer = faker_1.faker.datatype.boolean(0.3);
             const discount = offer ? Math.floor(Math.random() * (25 - 5) + 5) : 0;
+            const roomNumber = Math.floor(Math.random() * (9) + 1) * 100 + Math.floor(Math.random() * (9) + 1);
             return {
+                "room_number": roomNumber.toString(),
                 "room_photo": faker_1.faker.helpers.arrayElement(["https://example.com/room_photos/single_bed_1_medium.jpg",
                     "https://example.com/room_photos/single_bed_2_medium.jpg",
                     "https://example.com/room_photos/single_bed_3_medium.jpg"]) || '',
@@ -104,7 +123,6 @@ function ScriptSeed() {
             const date = faker_1.faker.date.between({ from: '2000-01-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' });
             const date2 = faker_1.faker.date.between({ from: date, to: '2023-10-31T00:00:00.000Z' });
             const date3 = faker_1.faker.date.between({ from: date2, to: '2023-10-31T00:00:00.000Z' });
-            const roomNumber = Math.floor(Math.random() * (9) + 1) * 100 + Math.floor(Math.random() * (9) + 1);
             return {
                 "guest": faker_1.faker.person.fullName(),
                 "phone_number": faker_1.faker.phone.number(),
@@ -114,13 +132,14 @@ function ScriptSeed() {
                 "special_request": faker_1.faker.lorem.words({ min: 1, max: 25 }),
                 "room_id": room._id || '',
                 "room_type": room.room_type,
-                "room_number": roomNumber.toString(),
+                "room_number": room.room_number,
                 "status": faker_1.faker.helpers.arrayElement(['Available', 'Booked']),
                 "photos": ["https://example.com/room_photos/single_bed_1_medium.jpg",
                     "https://example.com/room_photos/single_bed_2_medium.jpg",
                     "https://example.com/room_photos/single_bed_3_medium.jpg"]
             };
         }
+        mongoose_1.default.disconnect();
     });
 }
 exports.ScriptSeed = ScriptSeed;

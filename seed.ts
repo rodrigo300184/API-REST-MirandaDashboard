@@ -1,22 +1,44 @@
 import { faker } from '@faker-js/faker';
-import { UsersInterface } from '../../interfaces/usersInterface';
-import { BookingInterface } from '../../interfaces/bookingsInterface';
-import { RoomInterface } from '../../interfaces/roomsInterface';
-import { Rooms } from '../../models/roomsModel';
-import { Bookings } from '../../models/bookingsModel';
+import { UsersInterface } from './interfaces/usersInterface';
+import { BookingInterface } from './interfaces/bookingsInterface';
+import { RoomInterface } from './interfaces/roomsInterface';
+import { Rooms } from './models/roomsModel';
+import { Bookings } from './models/bookingsModel';
+import mongoose from 'mongoose';
+import 'dotenv/config'; 
+
+const UrlMongo = process.env.URL_ATLAS;
+console.log(UrlMongo);
+
+(async () => {
+    try {
+        await mongoose.connect(UrlMongo as string, {
+            dbName: 'Miranda_API',
+            
+        })
+        console.log('Conectado a Mongo')
+        
+    } catch (error) {
+        console.log(error);
+     }
+})()
+
+ScriptSeed()
+
 
 export async function ScriptSeed() {
     const quantity = 20;
     const rooms = [];
-   
+     
 
     for (let i = 0; i < quantity; i++) {
         const newRoom = createRandomRoom();
         const room = await Rooms.create(newRoom)
         rooms.push(room);
+     
     }
 
-    for (let i = 0; i < quantity; i++) {
+    for (let j = 0; j < quantity; j++) {
         const randomRoom: any = rooms[Math.floor(Math.random() * (quantity - 1))];
         const booking = createRandomBooking(randomRoom)
         await Bookings.create(booking);
@@ -35,7 +57,7 @@ export async function ScriptSeed() {
         };
     }
 
-    function createRandomRoom(): any {
+    function createRandomRoom(): RoomInterface {
         const amenitiesSuite = [
             { "name": "1/3 Bed Space", "description": "Spacious bed area" },
             { "name": "24-Hour Guard", "description": "Security available around the clock" },
@@ -85,8 +107,10 @@ export async function ScriptSeed() {
                 roomType === 'Suite' ? 370 : 180;
         const offer = faker.datatype.boolean(0.3);
         const discount = offer ? Math.floor(Math.random() * (25 - 5) + 5) : 0;
+        const roomNumber = Math.floor(Math.random() * (9) + 1) * 100 + Math.floor(Math.random() * (9) + 1)
 
         return {
+            "room_number": roomNumber.toString(),
             "room_photo": faker.helpers.arrayElement(["https://example.com/room_photos/single_bed_1_medium.jpg",
                 "https://example.com/room_photos/single_bed_2_medium.jpg",
                 "https://example.com/room_photos/single_bed_3_medium.jpg"]) || '',
@@ -103,7 +127,7 @@ export async function ScriptSeed() {
         const date = faker.date.between({ from: '2000-01-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' });
         const date2 = faker.date.between({ from: date, to: '2023-10-31T00:00:00.000Z' });
         const date3 = faker.date.between({ from: date2, to: '2023-10-31T00:00:00.000Z' });
-        const roomNumber = Math.floor(Math.random() * (9) + 1) * 100 + Math.floor(Math.random() * (9) + 1)
+       
 
         return {
             "guest": faker.person.fullName(),
@@ -114,13 +138,13 @@ export async function ScriptSeed() {
             "special_request": faker.lorem.words({ min: 1, max: 25 }),
             "room_id": room._id || '',
             "room_type": room.room_type,
-            "room_number": roomNumber.toString(),
+            "room_number": room.room_number,
             "status": faker.helpers.arrayElement(['Available', 'Booked']),
             "photos": ["https://example.com/room_photos/single_bed_1_medium.jpg",
                 "https://example.com/room_photos/single_bed_2_medium.jpg",
                 "https://example.com/room_photos/single_bed_3_medium.jpg"]
         };
     }
-
+   mongoose.disconnect() 
 }
 
