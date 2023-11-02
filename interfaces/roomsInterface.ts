@@ -1,7 +1,7 @@
 export interface Iamenities { "name": string, "description": string }
 
 export interface RoomInterface {
-    "id": string,
+    "_id"?: string,
     "room_photo": string,
     "room_type": string,
     "amenities": Iamenities[],

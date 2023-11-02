@@ -8,8 +8,10 @@ import { infoController } from './controllers/infoController';
 import { contactController } from './controllers/contactController';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import { ScriptSeed } from './assets/data/seed';
+import { Bookings } from './models/bookingsModel';
 
-; (async () => {
+(async () => {
     try {
         await mongoose.connect('mongodb://127.0.0.1:27017', {
             dbName: 'Miranda_API',
@@ -20,6 +22,7 @@ import mongoose from 'mongoose';
      }
 })()
 
+ScriptSeed();
 
 export const app: Express = express();
 

@@ -52,7 +52,7 @@ exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0
 }));
 exports.bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield bookingService_1.bookingService.editOne(req.params.id, req.body);
+        const response = yield bookingService_1.bookingService.editOne(req.params._id || '', req.body);
         res.json(response);
     }
     catch (error) {

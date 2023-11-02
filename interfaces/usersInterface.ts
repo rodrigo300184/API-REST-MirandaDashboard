@@ -1,6 +1,6 @@
 
 export interface UsersInterface {
-    "employee_id": string,
+    "_id"?: string,
     "full_name": string,
     "email": string,
     "photo": string,

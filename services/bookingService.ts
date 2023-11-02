@@ -28,7 +28,7 @@ async function editOne(id: string, update: Partial<BookingInterface>) {
 async function deleteOne(id: string) {
   const deletedBooking = await Bookings.findByIdAndDelete(id);
   if (!deletedBooking) throw new Error("The booking doesn't exist or couldn't be deleted");
-  return deletedBooking;
+  return
 }
 
 export const bookingService = {

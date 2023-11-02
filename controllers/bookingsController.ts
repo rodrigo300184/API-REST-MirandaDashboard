@@ -43,7 +43,7 @@ bookingsController.delete('/:id', async (req: Request, res: Response) => {
 
 bookingsController.put('/:id', async (req: Request<BookingInterface>, res: Response) => {
     try {
-        const response = await bookingService.editOne(req.params.id, req.body)
+        const response = await bookingService.editOne(req.params._id || '', req.body)
         res.json(response)
     } catch (error) {
         res.status(400).json(`${error}`);
