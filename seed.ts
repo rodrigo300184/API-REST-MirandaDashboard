@@ -8,7 +8,6 @@ import mongoose from 'mongoose';
 import 'dotenv/config'; 
 
 const UrlMongo = process.env.URL_ATLAS;
-console.log(UrlMongo);
 
 (async () => {
     try {

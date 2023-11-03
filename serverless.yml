@@ -1,4 +1,4 @@
-service: contact-serverless-api
+service: contact-serverless-miranda-api
 frameworkVersion: "3"
 
 provider:

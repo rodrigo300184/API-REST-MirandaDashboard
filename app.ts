@@ -8,7 +8,6 @@ import { infoController } from './controllers/infoController';
 import { contactController } from './controllers/contactController';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import { ScriptSeed } from './seed';
 
 const UrlMongo: string = process.env.URL_ATLAS || '';
 

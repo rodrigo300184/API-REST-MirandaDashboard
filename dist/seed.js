@@ -19,7 +19,6 @@ const bookingsModel_1 = require("./models/bookingsModel");
 const mongoose_1 = __importDefault(require("mongoose"));
 require("dotenv/config");
 const UrlMongo = process.env.URL_ATLAS;
-console.log(UrlMongo);
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(UrlMongo, {
