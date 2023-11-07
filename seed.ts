@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 import { UsersInterface } from './interfaces/usersInterface';
 import { BookingInterface } from './interfaces/bookingsInterface';
 import { RoomInterface } from './interfaces/roomsInterface';
-import { Rooms } from './models/roomsModel';
-import { Bookings } from './models/bookingsModel';
+import { Room } from './models/roomsModel';
+import { Booking } from './models/bookingsModel';
 import mongoose from 'mongoose';
 import 'dotenv/config'; 
 
@@ -22,25 +22,26 @@ const UrlMongo = process.env.URL_ATLAS;
      }
 })()
 
-ScriptSeed()
+scriptSeed()
 
 
-export async function ScriptSeed() {
-    const quantity = 20;
+export async function scriptSeed() {
+    const bookingsQuantity = 600;
+    const roomsQuantity = 90;
     const rooms = [];
      
 
-    for (let i = 0; i < quantity; i++) {
+    for (let i = 0; i < roomsQuantity; i++) {
         const newRoom = createRandomRoom();
-        const room = await Rooms.create(newRoom)
+        const room = await Room.create(newRoom)
         rooms.push(room);
      
     }
 
-    for (let j = 0; j < quantity; j++) {
-        const randomRoom: any = rooms[Math.floor(Math.random() * (quantity - 1))];
+    for (let i = 0; i < bookingsQuantity; i++) {
+        const randomRoom: any = rooms[Math.floor(Math.random() * (roomsQuantity - 1))];
         const booking = createRandomBooking(randomRoom)
-        await Bookings.create(booking);
+        await Booking.create(booking);
      
     }
 

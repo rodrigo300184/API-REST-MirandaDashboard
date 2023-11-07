@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Rooms = void 0;
+exports.Room = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const roomsSchema = new mongoose_1.default.Schema({
     "room_number": String,
@@ -15,5 +15,5 @@ const roomsSchema = new mongoose_1.default.Schema({
     "discount": Number,
     "status": String
 });
-exports.Rooms = mongoose_1.default.model('Rooms', roomsSchema);
+exports.Room = mongoose_1.default.model('Rooms', roomsSchema);
 //# sourceMappingURL=roomsModel.js.map

@@ -13,7 +13,7 @@ exports.contactsService = void 0;
 const contactsModel_1 = require("../models/contactsModel");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllContacts = yield contactsModel_1.Contacts.find();
+        const getAllContacts = yield contactsModel_1.Contact.find();
         if (!getAllContacts)
             throw new Error('Error obtaining all contacts');
         return getAllContacts;
@@ -21,7 +21,7 @@ function fetchAll() {
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const contact = yield contactsModel_1.Contacts.findById(id);
+        const contact = yield contactsModel_1.Contact.findById(id);
         if (!contact)
             throw new Error("Error obtaining the contact or the contact doesn't exist");
         return contact;
@@ -29,7 +29,7 @@ function fetchOne(id) {
 }
 function createOne(contact) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newContact = yield contactsModel_1.Contacts.create(contact);
+        const newContact = yield contactsModel_1.Contact.create(contact);
         if (!newContact)
             throw new Error("The contact couldn't be created");
         return newContact;
@@ -37,7 +37,7 @@ function createOne(contact) {
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedContact = yield contactsModel_1.Contacts.findByIdAndUpdate(id, update);
+        const updatedContact = yield contactsModel_1.Contact.findByIdAndUpdate(id, update);
         if (!updatedContact)
             throw new Error("The contact doesn't exist or couldn't be updated");
         return updatedContact;
@@ -45,10 +45,10 @@ function editOne(id, update) {
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedContact = yield contactsModel_1.Contacts.findByIdAndDelete(id);
+        const deletedContact = yield contactsModel_1.Contact.findByIdAndDelete(id);
         if (!deletedContact)
             throw new Error("The contact doesn't exist or couldn't be deleted");
-        return deletedContact;
+        return;
     });
 }
 exports.contactsService = {

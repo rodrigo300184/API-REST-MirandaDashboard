@@ -49,6 +49,6 @@ exports.app.use('/users', usersController_1.usersController);
 exports.app.use('/contacts', contactController_1.contactController);
 exports.app.use((error, _req, res) => {
     console.error(error);
-    return res.status(500).json({ error: true, message: 'Application error' });
+    return res.status(error.status || 500).json({ error: true, message: error.message || 'Application error' });
 });
 //# sourceMappingURL=app.js.map

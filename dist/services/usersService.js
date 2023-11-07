@@ -13,7 +13,7 @@ exports.usersService = void 0;
 const usersModel_1 = require("../models/usersModel");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllUsers = yield usersModel_1.Users.find();
+        const getAllUsers = yield usersModel_1.User.find();
         if (!getAllUsers)
             throw new Error('Error obtaining all users');
         return getAllUsers;
@@ -21,7 +21,7 @@ function fetchAll() {
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = yield usersModel_1.Users.findById(id);
+        const user = yield usersModel_1.User.findById(id);
         if (!user)
             throw new Error("Error obtaining the user or the user doesn't exist");
         return user;
@@ -29,7 +29,7 @@ function fetchOne(id) {
 }
 function createOne(user) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newUser = yield usersModel_1.Users.create(user);
+        const newUser = yield usersModel_1.User.create(user);
         if (!newUser)
             throw new Error("The user couldn't be created");
         return newUser;
@@ -37,7 +37,7 @@ function createOne(user) {
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedUser = yield usersModel_1.Users.findByIdAndUpdate(id, update);
+        const updatedUser = yield usersModel_1.User.findByIdAndUpdate(id, update);
         if (!updatedUser)
             throw new Error("The user doesn't exist or couldn't be updated");
         return updatedUser;
@@ -45,10 +45,10 @@ function editOne(id, update) {
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedUser = yield usersModel_1.Users.findByIdAndDelete(id);
+        const deletedUser = yield usersModel_1.User.findByIdAndDelete(id);
         if (!deletedUser)
             throw new Error("The user doesn't exist or couldn't be deleted");
-        return deletedUser;
+        return;
     });
 }
 exports.usersService = {

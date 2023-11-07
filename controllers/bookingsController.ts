@@ -1,23 +1,23 @@
-import { Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { BookingInterface } from '../interfaces/bookingsInterface';
 import { bookingService } from '../services/bookingService';
 
 
 export const bookingsController = Router();
 
-bookingsController.get('/', async (_req: Request, res: Response) => {
+bookingsController.get('/', async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const bookingsData = await bookingService.fetchAll();
-        res.json(bookingsData);
+        res.json({bookingsData});
     } catch (error) {
-        res.status(500).json(`${error}`);
+        next(error)
     };
 })
 
 bookingsController.get('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await bookingService.fetchOne(req.params.id);
-        res.json(response)
+        const booking = await bookingService.fetchOne(req.params.id);
+        res.json({booking})
     } catch (error) {
         res.status(400).json(`${error}`);
     }
@@ -25,8 +25,8 @@ bookingsController.get('/:id', async (req: Request, res: Response) => {
 
 bookingsController.post('/', async (req: Request<BookingInterface>, res: Response<any>) => {
     try {
-        const response = await bookingService.createOne(req.body);
-        res.json(response);
+        const newBooking = await bookingService.createOne(req.body);
+        res.json({newBooking});
     } catch (error) {
         res.status(500).json('Internal Server Error');
     }
@@ -43,10 +43,11 @@ bookingsController.delete('/:id', async (req: Request, res: Response) => {
 
 bookingsController.put('/:id', async (req: Request<BookingInterface>, res: Response) => {
     try {
-        const response = await bookingService.editOne(req.params._id || '', req.body)
-        res.json(response)
+        const updatedBooking = await bookingService.editOne(req.params._id || '', req.body)
+        res.json({updatedBooking})
     } catch (error) {
         res.status(400).json(`${error}`);
     }
 })
 
+ 

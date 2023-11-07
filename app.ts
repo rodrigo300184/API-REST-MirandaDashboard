@@ -8,6 +8,7 @@ import { infoController } from './controllers/infoController';
 import { contactController } from './controllers/contactController';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import { ApiError } from './controllers/apiError';
 
 const UrlMongo: string = process.env.URL_ATLAS || '';
 
@@ -38,7 +39,7 @@ app.use('/bookings', bookingsController)
 app.use('/rooms', roomsController)
 app.use('/users', usersController)
 app.use('/contacts', contactController)
-app.use((error: Error, _req: Request, res: Response) => {
+app.use((error: ApiError, _req: Request, res: Response) => {
     console.error(error);
-    return res.status(500).json({ error: true, message: 'Application error' })
+    return res.status(error.status || 500).json({ error: true, message: error.message ||'Application error' })
 })

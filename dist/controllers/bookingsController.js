@@ -13,20 +13,20 @@ exports.bookingsController = void 0;
 const express_1 = require("express");
 const bookingService_1 = require("../services/bookingService");
 exports.bookingsController = (0, express_1.Router)();
-exports.bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookingsData = yield bookingService_1.bookingService.fetchAll();
-        res.json(bookingsData);
+        res.json({ bookingsData });
     }
     catch (error) {
-        res.status(500).json(`${error}`);
+        next(error);
     }
     ;
 }));
 exports.bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield bookingService_1.bookingService.fetchOne(req.params.id);
-        res.json(response);
+        const booking = yield bookingService_1.bookingService.fetchOne(req.params.id);
+        res.json({ booking });
     }
     catch (error) {
         res.status(400).json(`${error}`);
@@ -34,8 +34,8 @@ exports.bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield bookingService_1.bookingService.createOne(req.body);
-        res.json(response);
+        const newBooking = yield bookingService_1.bookingService.createOne(req.body);
+        res.json({ newBooking });
     }
     catch (error) {
         res.status(500).json('Internal Server Error');
@@ -52,8 +52,8 @@ exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0
 }));
 exports.bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield bookingService_1.bookingService.editOne(req.params._id || '', req.body);
-        res.json(response);
+        const updatedBooking = yield bookingService_1.bookingService.editOne(req.params._id || '', req.body);
+        res.json({ updatedBooking });
     }
     catch (error) {
         res.status(400).json(`${error}`);

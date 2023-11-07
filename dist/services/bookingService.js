@@ -10,18 +10,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
+const apiError_1 = require("../controllers/apiError");
 const bookingsModel_1 = require("../models/bookingsModel");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllBoookings = yield bookingsModel_1.Bookings.find();
+        const getAllBoookings = yield bookingsModel_1.Booking.find();
         if (!getAllBoookings)
-            throw new Error('Error obtaining all bookings');
+            throw new apiError_1.ApiError(400, 'Error obtaining all bookings', true);
         return getAllBoookings;
     });
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield bookingsModel_1.Bookings.find({ id: id });
+        const booking = yield bookingsModel_1.Booking.find({ id: id });
         if (!booking)
             throw new Error("Error obtaining the booking or the booking doesn't exist");
         return booking;
@@ -29,7 +30,7 @@ function fetchOne(id) {
 }
 function createOne(booking) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newBooking = yield bookingsModel_1.Bookings.create(booking);
+        const newBooking = yield bookingsModel_1.Booking.create(booking);
         if (!newBooking)
             throw new Error("The booking couldn't be created");
         return newBooking;
@@ -37,7 +38,7 @@ function createOne(booking) {
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedBooking = yield bookingsModel_1.Bookings.findByIdAndUpdate(id, update);
+        const updatedBooking = yield bookingsModel_1.Booking.findByIdAndUpdate(id, update);
         if (!updatedBooking)
             throw new Error("The booking doesn't exist or couldn't be updated");
         return updatedBooking;
@@ -45,7 +46,7 @@ function editOne(id, update) {
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedBooking = yield bookingsModel_1.Bookings.findByIdAndDelete(id);
+        const deletedBooking = yield bookingsModel_1.Booking.findByIdAndDelete(id);
         if (!deletedBooking)
             throw new Error("The booking doesn't exist or couldn't be deleted");
         return;

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ScriptSeed = void 0;
+exports.scriptSeed = void 0;
 const faker_1 = require("@faker-js/faker");
 const roomsModel_1 = require("./models/roomsModel");
 const bookingsModel_1 = require("./models/bookingsModel");
@@ -30,20 +30,21 @@ const UrlMongo = process.env.URL_ATLAS;
         console.log(error);
     }
 }))();
-ScriptSeed();
-function ScriptSeed() {
+scriptSeed();
+function scriptSeed() {
     return __awaiter(this, void 0, void 0, function* () {
-        const quantity = 20;
+        const bookingsQuantity = 600;
+        const roomsQuantity = 90;
         const rooms = [];
-        for (let i = 0; i < quantity; i++) {
+        for (let i = 0; i < roomsQuantity; i++) {
             const newRoom = createRandomRoom();
-            const room = yield roomsModel_1.Rooms.create(newRoom);
+            const room = yield roomsModel_1.Room.create(newRoom);
             rooms.push(room);
         }
-        for (let j = 0; j < quantity; j++) {
-            const randomRoom = rooms[Math.floor(Math.random() * (quantity - 1))];
+        for (let i = 0; i < bookingsQuantity; i++) {
+            const randomRoom = rooms[Math.floor(Math.random() * (roomsQuantity - 1))];
             const booking = createRandomBooking(randomRoom);
-            yield bookingsModel_1.Bookings.create(booking);
+            yield bookingsModel_1.Booking.create(booking);
         }
         function createRandomUser() {
             return {
@@ -143,5 +144,5 @@ function ScriptSeed() {
         mongoose_1.default.disconnect();
     });
 }
-exports.ScriptSeed = ScriptSeed;
+exports.scriptSeed = scriptSeed;
 //# sourceMappingURL=seed.js.map

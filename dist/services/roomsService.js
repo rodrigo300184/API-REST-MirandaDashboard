@@ -13,7 +13,7 @@ exports.roomsService = void 0;
 const roomsModel_1 = require("../models/roomsModel");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllRooms = yield roomsModel_1.Rooms.find();
+        const getAllRooms = yield roomsModel_1.Room.find();
         if (!getAllRooms)
             throw new Error('Error obtaining all rooms');
         return getAllRooms;
@@ -21,7 +21,7 @@ function fetchAll() {
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const room = yield roomsModel_1.Rooms.findById(id);
+        const room = yield roomsModel_1.Room.findById(id);
         if (!room)
             throw new Error("Error obtaining the room or the room doesn't exist");
         return room;
@@ -29,7 +29,7 @@ function fetchOne(id) {
 }
 function createOne(room) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newRoom = yield roomsModel_1.Rooms.create(room);
+        const newRoom = yield roomsModel_1.Room.create(room);
         if (!newRoom)
             throw new Error("The room couldn't be created");
         return newRoom;
@@ -37,7 +37,7 @@ function createOne(room) {
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedRoom = yield roomsModel_1.Rooms.findByIdAndUpdate(id, update);
+        const updatedRoom = yield roomsModel_1.Room.findByIdAndUpdate(id, update);
         if (!updatedRoom)
             throw new Error("The room doesn't exist or couldn't be updated");
         return updatedRoom;
@@ -45,10 +45,10 @@ function editOne(id, update) {
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedRoom = yield roomsModel_1.Rooms.findByIdAndDelete(id);
+        const deletedRoom = yield roomsModel_1.Room.findByIdAndDelete(id);
         if (!deletedRoom)
             throw new Error("The room doesn't exist or couldn't be deleted");
-        return deletedRoom;
+        return;
     });
 }
 exports.roomsService = {

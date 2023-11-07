@@ -25,8 +25,8 @@ exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.roomsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield roomsService_1.roomsService.fetchOne(req.params.id);
-        res.json(response);
+        const result = yield roomsService_1.roomsService.fetchOne(req.params.id);
+        res.json(result);
     }
     catch (error) {
         res.status(400).json(`${error}`);
@@ -34,8 +34,8 @@ exports.roomsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void
 }));
 exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield roomsService_1.roomsService.createOne(req.body);
-        res.json(response);
+        const result = yield roomsService_1.roomsService.createOne(req.body);
+        res.json(result);
     }
     catch (error) {
         res.status(500).send('Internal Server Error');
@@ -52,8 +52,8 @@ exports.roomsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 exports.roomsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield roomsService_1.roomsService.editOne(req.params.id, req.body);
-        res.json(response);
+        const result = yield roomsService_1.roomsService.editOne(req.params.id, req.body);
+        res.json(result);
     }
     catch (error) {
         res.status(400).json(`${error}`);

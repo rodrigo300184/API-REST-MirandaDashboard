@@ -15,8 +15,8 @@ contactController.get('/', async (_req: Request, res: Response) => {
 
 contactController.get('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await contactsService.fetchOne(req.params.id);
-        res.json(response)
+        const result = await contactsService.fetchOne(req.params.id);
+        res.json(result)
     } catch (error) {
         res.status(400).json(`${error}`);
     }
@@ -24,8 +24,8 @@ contactController.get('/:id', async (req: Request, res: Response) => {
 
 contactController.post('/', async (req: Request, res: Response) => {
     try {
-        const response = await contactsService.createOne(req.body);
-        res.json(response);
+        const result = await contactsService.createOne(req.body);
+        res.json(result);
     } catch (error) {
         res.status(500).json('Internal Server Error');
     }
@@ -42,8 +42,8 @@ contactController.delete('/:id', async (req: Request, res: Response) => {
 
 contactController.put('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await contactsService.editOne(req.params.id, req.body)
-        res.json(response)
+        const result = await contactsService.editOne(req.params.id, req.body)
+        res.json(result)
     } catch (error) {
         res.status(400).json(`${error}`);
     }
