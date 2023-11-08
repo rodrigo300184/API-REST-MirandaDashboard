@@ -11,4 +11,4 @@ const roomsSchema = new mongoose.Schema({
     "status": String
 })
 
-export const Rooms = mongoose.model('Rooms', roomsSchema);
+export const Room = mongoose.model('Rooms', roomsSchema);

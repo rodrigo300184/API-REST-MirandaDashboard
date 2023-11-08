@@ -1,33 +1,42 @@
+import { ApiError } from '../controllers/apiError';
+import { selectQuery } from '../utils/api_connection';
 import { BookingInterface } from '../interfaces/bookingsInterface';
-import { Bookings } from '../models/bookingsModel';
+
 
 async function fetchAll() {
-  const getAllBoookings = await Bookings.find();
-  if (!getAllBoookings) throw new Error('Error obtaining all bookings');
+  const getAllBoookings = await selectQuery('SELECT * FROM booking;');
   return getAllBoookings;
 }
 
 async function fetchOne(id: string) {
-  const booking = await Bookings.find({ id: id });
-  if (!booking) throw new Error("Error obtaining the booking or the booking doesn't exist");
+  const booking = await selectQuery(`SELECT * FROM booking WHERE id = ?`, [id]);
+  if (!booking.length) throw new ApiError(400, "Error obtaining the booking or the booking doesn't exist");
   return booking;
 }
 
 async function createOne(booking: BookingInterface) {
-  const newBooking = await Bookings.create(booking);
-  if (!newBooking) throw new Error("The booking couldn't be created");
-  return newBooking;
+  const query = `INSERT INTO booking (guest,phone_number, order_date, check_in, check_out,special_request, status, room_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+  const data = [booking.guest, booking.phone_number, booking.order_date, booking.check_in, booking.check_out, booking.special_request,
+  booking.status, booking.room_id];
+  const newBooking = await selectQuery(query, data);
+  if (newBooking.affectedRows === 0) throw new Error("The booking couldn't be created");
+  const createdBooking = await fetchOne(newBooking.insertId);
+  return createdBooking;
 }
 
 async function editOne(id: string, update: Partial<BookingInterface>) {
-  const updatedBooking = await Bookings.findByIdAndUpdate(id, update);
-  if (!updatedBooking) throw new Error("The booking doesn't exist or couldn't be updated");
+  const query = `UPDATE booking SET guest = ?, phone_number = ?, order_date = ?, check_in = ?, check_out = ?, special_request = ?, status = ?, room_id = ? WHERE id = ?`;
+  const data = [update.guest, update.phone_number, update.order_date, update.check_in, update.check_out, update.special_request, update.status, update.room_id, id];
+  const bookingUpdate = await selectQuery(query, data);
+  console.log(bookingUpdate)
+  if (bookingUpdate.affectedRows === 0) throw new Error("The booking doesn't exist or couldn't be updated");
+  const updatedBooking = await fetchOne(id);
   return updatedBooking;
 }
 
 async function deleteOne(id: string) {
-  const deletedBooking = await Bookings.findByIdAndDelete(id);
-  if (!deletedBooking) throw new Error("The booking doesn't exist or couldn't be deleted");
+  const deletedBooking = await selectQuery(`DELETE FROM booking WHERE id = ?`, [id]);
+  if (deletedBooking.affectedRows===0) throw new Error("The booking doesn't exist or couldn't be deleted");
   return
 }
 

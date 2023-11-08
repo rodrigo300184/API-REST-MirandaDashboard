@@ -7,7 +7,7 @@ export const roomsController = Router();
 roomsController.get('/', async (_req: Request, res: Response) => {
     try {
         const roomsData = await roomsService.fetchAll();
-        res.json(roomsData);
+        res.json({roomsData});
     } catch (error) {
         res.status(500).json(`${error}`);
     };
@@ -15,8 +15,8 @@ roomsController.get('/', async (_req: Request, res: Response) => {
 
 roomsController.get('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await roomsService.fetchOne(req.params.id);
-        res.json(response)
+        const room = await roomsService.fetchOne(req.params.id);
+        res.json({room})
     } catch (error) {
         res.status(400).json(`${error}`);
     }
@@ -24,10 +24,10 @@ roomsController.get('/:id', async (req: Request, res: Response) => {
 
 roomsController.post('/', async (req: Request, res: Response) => {
     try {
-        const response = await roomsService.createOne(req.body);
-        res.json(response);
+        const newRoom = await roomsService.createOne(req.body);
+        res.json({newRoom});
     } catch (error) {
-        res.status(500).send('Internal Server Error');
+        res.status(500).send(error);
     }
 })
 
@@ -42,8 +42,8 @@ roomsController.delete('/:id', async (req: Request, res: Response) => {
 
 roomsController.put('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await roomsService.editOne(req.params.id, req.body)
-        res.json(response)
+        const updatedRoom = await roomsService.editOne(req.params.id, req.body)
+        res.json({updatedRoom})
     } catch (error) {
         res.status(400).json(`${error}`);
     }

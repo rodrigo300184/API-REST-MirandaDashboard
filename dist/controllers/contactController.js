@@ -25,8 +25,8 @@ exports.contactController.get('/', (_req, res) => __awaiter(void 0, void 0, void
 }));
 exports.contactController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield contactsService_1.contactsService.fetchOne(req.params.id);
-        res.json(response);
+        const result = yield contactsService_1.contactsService.fetchOne(req.params.id);
+        res.json(result);
     }
     catch (error) {
         res.status(400).json(`${error}`);
@@ -34,8 +34,8 @@ exports.contactController.get('/:id', (req, res) => __awaiter(void 0, void 0, vo
 }));
 exports.contactController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield contactsService_1.contactsService.createOne(req.body);
-        res.json(response);
+        const result = yield contactsService_1.contactsService.createOne(req.body);
+        res.json(result);
     }
     catch (error) {
         res.status(500).json('Internal Server Error');
@@ -52,8 +52,8 @@ exports.contactController.delete('/:id', (req, res) => __awaiter(void 0, void 0,
 }));
 exports.contactController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield contactsService_1.contactsService.editOne(req.params.id, req.body);
-        res.json(response);
+        const result = yield contactsService_1.contactsService.editOne(req.params.id, req.body);
+        res.json(result);
     }
     catch (error) {
         res.status(400).json(`${error}`);

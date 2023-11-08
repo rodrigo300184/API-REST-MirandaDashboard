@@ -10,45 +10,49 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.roomsService = void 0;
-const roomsModel_1 = require("../models/roomsModel");
+const api_connection_1 = require("../utils/api_connection");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllRooms = yield roomsModel_1.Rooms.find();
-        if (!getAllRooms)
-            throw new Error('Error obtaining all rooms');
+        const getAllRooms = yield (0, api_connection_1.selectQuery)('SELECT * FROM room;');
         return getAllRooms;
     });
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const room = yield roomsModel_1.Rooms.findById(id);
-        if (!room)
+        const room = yield (0, api_connection_1.selectQuery)(`SELECT * FROM room WHERE id = ?`, [id]);
+        if (!room.length)
             throw new Error("Error obtaining the room or the room doesn't exist");
-        return room;
+        return room[0];
     });
 }
 function createOne(room) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newRoom = yield roomsModel_1.Rooms.create(room);
-        if (!newRoom)
+        const query = `INSERT INTO room (room_number, room_type, description, price, offer_price, discount, status) VALUES (?, ?, ?, ?, ?, ?, ?);`;
+        const data = [room.room_number, room.room_type, room.description, room.price, room.offer_price, room.discount, room.status];
+        const newRoom = yield (0, api_connection_1.selectQuery)(query, data);
+        if (newRoom.affectedRows === 0)
             throw new Error("The room couldn't be created");
-        return newRoom;
+        const createdRoom = yield fetchOne(newRoom.insertId);
+        return createdRoom;
     });
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedRoom = yield roomsModel_1.Rooms.findByIdAndUpdate(id, update);
-        if (!updatedRoom)
+        const query = `UPDATE room SET room_number = ?, room_type = ?, description = ?, price = ?, offer_price = ?, discount = ?, status = ? WHERE id = ?`;
+        const data = [update.room_number, update.room_type, update.description, update.price, update.offer_price, update.discount, update.status, id];
+        const roomUpdate = yield (0, api_connection_1.selectQuery)(query, data);
+        if (roomUpdate.affectedRows === 0)
             throw new Error("The room doesn't exist or couldn't be updated");
+        const updatedRoom = yield fetchOne(id);
         return updatedRoom;
     });
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedRoom = yield roomsModel_1.Rooms.findByIdAndDelete(id);
-        if (!deletedRoom)
+        const deletedRoom = yield (0, api_connection_1.selectQuery)(`DELETE FROM room WHERE id = ${id}`);
+        if (deletedRoom.affectedRows === 0)
             throw new Error("The room doesn't exist or couldn't be deleted");
-        return deletedRoom;
+        return;
     });
 }
 exports.roomsService = {

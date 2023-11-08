@@ -15,8 +15,8 @@ usersController.get('/', async (_req: Request, res: Response) => {
 
 usersController.get('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await usersService.fetchOne(req.params.id);
-        res.json(response)
+        const result = await usersService.fetchOne(req.params.id);
+        res.json(result)
     } catch (error) {
         res.status(400).json(`${error}`);
     }
@@ -24,8 +24,8 @@ usersController.get('/:id', async (req: Request, res: Response) => {
 
 usersController.post('/', async (req: Request, res: Response) => {
     try {
-        const response = await usersService.createOne(req.body);
-        res.json(response);
+        const result = await usersService.createOne(req.body);
+        res.json(result);
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
@@ -42,8 +42,8 @@ usersController.delete('/:id', async (req: Request, res: Response) => {
 
 usersController.put('/:id', async (req: Request, res: Response) => {
     try {
-        const response = await usersService.editOne(req.params.id, req.body)
-        res.json(response)
+        const result = await usersService.editOne(req.params.id, req.body)
+        res.json(result)
     } catch (error) {
         res.status(400).json(`${error}`);
     }

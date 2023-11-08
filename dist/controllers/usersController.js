@@ -25,8 +25,8 @@ exports.usersController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.usersController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield usersService_1.usersService.fetchOne(req.params.id);
-        res.json(response);
+        const result = yield usersService_1.usersService.fetchOne(req.params.id);
+        res.json(result);
     }
     catch (error) {
         res.status(400).json(`${error}`);
@@ -34,8 +34,8 @@ exports.usersController.get('/:id', (req, res) => __awaiter(void 0, void 0, void
 }));
 exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield usersService_1.usersService.createOne(req.body);
-        res.json(response);
+        const result = yield usersService_1.usersService.createOne(req.body);
+        res.json(result);
     }
     catch (error) {
         res.status(500).send('Internal Server Error');
@@ -52,8 +52,8 @@ exports.usersController.delete('/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 exports.usersController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield usersService_1.usersService.editOne(req.params.id, req.body);
-        res.json(response);
+        const result = yield usersService_1.usersService.editOne(req.params.id, req.body);
+        res.json(result);
     }
     catch (error) {
         res.status(400).json(`${error}`);

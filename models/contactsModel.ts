@@ -11,4 +11,4 @@ const conctactsSchema = new mongoose.Schema({
     "isArchived": String
 })
 
-export const Contacts = mongoose.model('Contacts',conctactsSchema);
+export const Contact = mongoose.model('Contacts',conctactsSchema);

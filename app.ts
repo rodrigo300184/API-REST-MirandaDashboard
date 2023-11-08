@@ -7,21 +7,7 @@ import { authMiddleware } from './middlewares/login';
 import { infoController } from './controllers/infoController';
 import { contactController } from './controllers/contactController';
 import cors from 'cors';
-import mongoose from 'mongoose';
-
-const UrlMongo: string = process.env.URL_ATLAS || '';
-
-(async () => {
-    try {
-        await mongoose.connect(UrlMongo, {
-            dbName: 'Miranda_API',
-        })
-        console.log('Conectado a Mongo')
-    } catch (error) {
-        console.log(error);
-     }
-})()
-
+import { ApiError } from './controllers/apiError';
 
 
 export const app: Express = express();
@@ -38,7 +24,6 @@ app.use('/bookings', bookingsController)
 app.use('/rooms', roomsController)
 app.use('/users', usersController)
 app.use('/contacts', contactController)
-app.use((error: Error, _req: Request, res: Response) => {
-    console.error(error);
-    return res.status(500).json({ error: true, message: 'Application error' })
+app.use((error: ApiError | Error, _req: Request, res: Response) => {
+    return res.send(error instanceof ApiError ? error.status : 500).json({ error: true, message: error.message ||'Application error' })
 })
