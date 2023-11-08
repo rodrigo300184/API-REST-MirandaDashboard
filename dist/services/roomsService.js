@@ -14,15 +14,13 @@ const api_connection_1 = require("../utils/api_connection");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
         const getAllRooms = yield (0, api_connection_1.selectQuery)('SELECT * FROM room;');
-        if (!getAllRooms)
-            throw new Error('Error obtaining all rooms');
         return getAllRooms;
     });
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const room = yield (0, api_connection_1.selectQuery)(`SELECT * FROM room WHERE id = ?`, [id]);
-        if (!room)
+        if (!room.length)
             throw new Error("Error obtaining the room or the room doesn't exist");
         return room[0];
     });
