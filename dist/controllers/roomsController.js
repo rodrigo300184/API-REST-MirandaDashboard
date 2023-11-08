@@ -16,7 +16,7 @@ exports.roomsController = (0, express_1.Router)();
 exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const roomsData = yield roomsService_1.roomsService.fetchAll();
-        res.json(roomsData);
+        res.json({ roomsData });
     }
     catch (error) {
         res.status(500).json(`${error}`);
@@ -25,8 +25,8 @@ exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.roomsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield roomsService_1.roomsService.fetchOne(req.params.id);
-        res.json(result);
+        const room = yield roomsService_1.roomsService.fetchOne(req.params.id);
+        res.json({ room });
     }
     catch (error) {
         res.status(400).json(`${error}`);
@@ -34,11 +34,11 @@ exports.roomsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void
 }));
 exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield roomsService_1.roomsService.createOne(req.body);
-        res.json(result);
+        const newRoom = yield roomsService_1.roomsService.createOne(req.body);
+        res.json({ newRoom });
     }
     catch (error) {
-        res.status(500).send('Internal Server Error');
+        res.status(500).send(error);
     }
 }));
 exports.roomsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -52,8 +52,8 @@ exports.roomsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, v
 }));
 exports.roomsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield roomsService_1.roomsService.editOne(req.params.id, req.body);
-        res.json(result);
+        const updatedRoom = yield roomsService_1.roomsService.editOne(req.params.id, req.body);
+        res.json({ updatedRoom });
     }
     catch (error) {
         res.status(400).json(`${error}`);
