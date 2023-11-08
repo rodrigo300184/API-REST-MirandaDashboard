@@ -9,12 +9,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.selectQuery = void 0;
+exports.selectQuery = exports.createDatabaseIfNotExists = void 0;
 const mysql = require('mysql2/promise');
 require("dotenv/config");
 const userSQL = process.env.USER_SQL;
 const databaseSQL = process.env.DATABASE_SQL;
 const passwordSQL = process.env.PASSWORD_SQL;
+const createDatabaseIfNotExists = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Conectarse al servidor MySQL sin seleccionar una base de datos.
+        const connection = yield mysql.createConnection({
+            host: 'localhost',
+            user: userSQL,
+            password: passwordSQL,
+        });
+        // Ejecutar consulta para crear la base de datos si no existe.
+        yield connection.query(`CREATE DATABASE IF NOT EXISTS ${databaseSQL}`);
+        // Cerrar la conexión sin seleccionar una base de datos.
+        yield connection.end();
+    }
+    catch (error) {
+        console.error('Error al crear o seleccionar la base de datos:', error);
+        throw error;
+    }
+});
+exports.createDatabaseIfNotExists = createDatabaseIfNotExists;
+// Llamar a la función createDatabaseIfNotExists al iniciar la aplicación
+(0, exports.createDatabaseIfNotExists)();
 const pool = mysql.createPool({
     host: 'localhost',
     user: userSQL,
