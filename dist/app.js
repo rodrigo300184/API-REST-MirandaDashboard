@@ -13,6 +13,7 @@ const login_1 = require("./middlewares/login");
 const infoController_1 = require("./controllers/infoController");
 const contactController_1 = require("./controllers/contactController");
 const cors_1 = __importDefault(require("cors"));
+const apiError_1 = require("./controllers/apiError");
 exports.app = (0, express_1.default)();
 // middlewares
 exports.app.use((0, cors_1.default)());
@@ -26,7 +27,6 @@ exports.app.use('/rooms', roomsController_1.roomsController);
 exports.app.use('/users', usersController_1.usersController);
 exports.app.use('/contacts', contactController_1.contactController);
 exports.app.use((error, _req, res) => {
-    console.error(error);
-    return res.status(error.status || 500).json({ error: true, message: error.message || 'Application error' });
+    return res.send(error instanceof apiError_1.ApiError ? error.status : 500).json({ error: true, message: error.message || 'Application error' });
 });
 //# sourceMappingURL=app.js.map

@@ -11,43 +11,49 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
 const apiError_1 = require("../controllers/apiError");
-const bookingsModel_1 = require("../models/bookingsModel");
+const api_connection_1 = require("../utils/api_connection");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllBoookings = yield bookingsModel_1.Booking.find();
-        if (!getAllBoookings)
-            throw new apiError_1.ApiError(400, 'Error obtaining all bookings', true);
+        const getAllBoookings = yield (0, api_connection_1.selectQuery)('SELECT * FROM booking;');
         return getAllBoookings;
     });
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield bookingsModel_1.Booking.find({ id: id });
-        if (!booking)
-            throw new Error("Error obtaining the booking or the booking doesn't exist");
+        const booking = yield (0, api_connection_1.selectQuery)(`SELECT * FROM booking WHERE id = ?`, [id]);
+        if (!booking.length)
+            throw new apiError_1.ApiError(400, "Error obtaining the booking or the booking doesn't exist");
         return booking;
     });
 }
 function createOne(booking) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newBooking = yield bookingsModel_1.Booking.create(booking);
-        if (!newBooking)
+        const query = `INSERT INTO booking (guest,phone_number, order_date, check_in, check_out,special_request, status, room_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+        const data = [booking.guest, booking.phone_number, booking.order_date, booking.check_in, booking.check_out, booking.special_request,
+            booking.status, booking.room_id];
+        const newBooking = yield (0, api_connection_1.selectQuery)(query, data);
+        if (newBooking.affectedRows === 0)
             throw new Error("The booking couldn't be created");
-        return newBooking;
+        const createdBooking = yield fetchOne(newBooking.insertId);
+        return createdBooking;
     });
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedBooking = yield bookingsModel_1.Booking.findByIdAndUpdate(id, update);
-        if (!updatedBooking)
+        const query = `UPDATE booking SET guest = ?, phone_number = ?, order_date = ?, check_in = ?, check_out = ?, special_request = ?, status = ?, room_id = ? WHERE id = ?`;
+        const data = [update.guest, update.phone_number, update.order_date, update.check_in, update.check_out, update.special_request, update.status, update.room_id, id];
+        const bookingUpdate = yield (0, api_connection_1.selectQuery)(query, data);
+        console.log(bookingUpdate);
+        if (bookingUpdate.affectedRows === 0)
             throw new Error("The booking doesn't exist or couldn't be updated");
+        const updatedBooking = yield fetchOne(id);
         return updatedBooking;
     });
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedBooking = yield bookingsModel_1.Booking.findByIdAndDelete(id);
-        if (!deletedBooking)
+        const deletedBooking = yield (0, api_connection_1.selectQuery)(`DELETE FROM booking WHERE id = ?`, [id]);
+        if (deletedBooking.affectedRows === 0)
             throw new Error("The booking doesn't exist or couldn't be deleted");
         return;
     });

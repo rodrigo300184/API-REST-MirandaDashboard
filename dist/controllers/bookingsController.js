@@ -23,40 +23,40 @@ exports.bookingsController.get('/', (_req, res, next) => __awaiter(void 0, void 
     }
     ;
 }));
-exports.bookingsController.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const booking = yield bookingService_1.bookingService.fetchOne(req.params.id);
         res.json({ booking });
     }
     catch (error) {
-        res.status(400).json(`${error}`);
+        next(error);
     }
 }));
-exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newBooking = yield bookingService_1.bookingService.createOne(req.body);
         res.json({ newBooking });
     }
     catch (error) {
-        res.status(500).json('Internal Server Error');
+        next(error);
     }
 }));
-exports.bookingsController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.delete('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield bookingService_1.bookingService.deleteOne(req.params.id);
         res.json('The booking was correctly deleted.');
     }
     catch (error) {
-        res.status(400).json(`${error}`);
+        next(error);
     }
 }));
-exports.bookingsController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const updatedBooking = yield bookingService_1.bookingService.editOne(req.params._id || '', req.body);
+        const updatedBooking = yield bookingService_1.bookingService.editOne(req.params.id || '', req.body);
         res.json({ updatedBooking });
     }
     catch (error) {
-        res.status(400).json(`${error}`);
+        next(error);
     }
 }));
 //# sourceMappingURL=bookingsController.js.map

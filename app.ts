@@ -24,7 +24,6 @@ app.use('/bookings', bookingsController)
 app.use('/rooms', roomsController)
 app.use('/users', usersController)
 app.use('/contacts', contactController)
-app.use((error: ApiError, _req: Request, res: Response) => {
-    console.error(error);
-    return res.status(error.status || 500).json({ error: true, message: error.message ||'Application error' })
+app.use((error: ApiError | Error, _req: Request, res: Response) => {
+    return res.send(error instanceof ApiError ? error.status : 500).json({ error: true, message: error.message ||'Application error' })
 })

@@ -1,16 +1,14 @@
-import { Room } from '../models/roomsModel';
 import { RoomInterface } from '../interfaces/roomsInterface'
 import { selectQuery } from '../utils/api_connection';
 
 async function fetchAll() {
   const getAllRooms = await selectQuery('SELECT * FROM room;');
-  if (!getAllRooms) throw new Error('Error obtaining all rooms');
   return getAllRooms;
 }
 
 async function fetchOne(id: string) {
   const room = await selectQuery(`SELECT * FROM room WHERE id = ?`,[id]);
-  if (!room) throw new Error("Error obtaining the room or the room doesn't exist");
+  if (!room.length) throw new Error("Error obtaining the room or the room doesn't exist");
   return room[0];
 }
 
