@@ -10,43 +10,47 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactsService = void 0;
-const contactsModel_1 = require("../models/contactsModel");
+const api_connection_1 = require("../utils/api_connection");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllContacts = yield contactsModel_1.Contact.find();
-        if (!getAllContacts)
-            throw new Error('Error obtaining all contacts');
+        const getAllContacts = yield (0, api_connection_1.selectQuery)('SELECT * FROM contact;');
         return getAllContacts;
     });
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const contact = yield contactsModel_1.Contact.findById(id);
-        if (!contact)
+        const contact = yield (0, api_connection_1.selectQuery)(`SELECT * FROM contact WHERE id = ?`, [id]);
+        if (!contact.length)
             throw new Error("Error obtaining the contact or the contact doesn't exist");
-        return contact;
+        return contact[0];
     });
 }
 function createOne(contact) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newContact = yield contactsModel_1.Contact.create(contact);
-        if (!newContact)
+        const query = `INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) VALUES (?, ?, ?, ?, ?, ?, ?);`;
+        const data = [contact.full_name, contact.email, contact.phone_number, contact.subject_of_review, contact.review_body, contact.date, contact.status];
+        const newContact = yield (0, api_connection_1.selectQuery)(query, data);
+        if (newContact.affectedRows === 0)
             throw new Error("The contact couldn't be created");
-        return newContact;
+        const createdContact = yield fetchOne(newContact.insertId);
+        return createdContact;
     });
 }
 function editOne(id, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updatedContact = yield contactsModel_1.Contact.findByIdAndUpdate(id, update);
-        if (!updatedContact)
+        const query = `UPDATE contact SET full_name = ?, email = ?, phone_number = ?, subject_of_review = ?, review_body = ?, date = ?, status = ? WHERE id = ?;`;
+        const data = [update.full_name, update.email, update.phone_number, update.subject_of_review, update.review_body, update.date, update.status, id];
+        const contactUpdate = yield (0, api_connection_1.selectQuery)(query, data);
+        if (contactUpdate.affectedRows === 0)
             throw new Error("The contact doesn't exist or couldn't be updated");
+        const updatedContact = yield fetchOne(id);
         return updatedContact;
     });
 }
 function deleteOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const deletedContact = yield contactsModel_1.Contact.findByIdAndDelete(id);
-        if (!deletedContact)
+        const deletedContact = yield (0, api_connection_1.selectQuery)('DELETE FROM contact WHERE id = ?;', [id]);
+        if (deletedContact.affectedRows === 0)
             throw new Error("The contact doesn't exist or couldn't be deleted");
         return;
     });

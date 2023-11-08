@@ -11,7 +11,7 @@ async function fetchAll() {
 async function fetchOne(id: string) {
   const booking = await selectQuery(`SELECT * FROM booking WHERE id = ?`, [id]);
   if (!booking.length) throw new ApiError(400, "Error obtaining the booking or the booking doesn't exist");
-  return booking;
+  return booking[0];
 }
 
 async function createOne(booking: BookingInterface) {

@@ -23,7 +23,7 @@ function fetchOne(id) {
         const booking = yield (0, api_connection_1.selectQuery)(`SELECT * FROM booking WHERE id = ?`, [id]);
         if (!booking.length)
             throw new apiError_1.ApiError(400, "Error obtaining the booking or the booking doesn't exist");
-        return booking;
+        return booking[0];
     });
 }
 function createOne(booking) {
