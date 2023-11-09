@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactController = void 0;
 const express_1 = require("express");
 const contactsService_1 = require("../services/contactsService");
+const validationMiddleware_1 = require("../validator/validationMiddleware");
+const validationSchemas_1 = require("../validator/validationSchemas");
 exports.contactController = (0, express_1.Router)();
 exports.contactController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -32,7 +34,7 @@ exports.contactController.get('/:id', (req, res) => __awaiter(void 0, void 0, vo
         res.status(400).json(`${error}`);
     }
 }));
-exports.contactController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactController.post('/', (0, validationMiddleware_1.generateValidationMiddleware)(validationSchemas_1.contactSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield contactsService_1.contactsService.createOne(req.body);
         res.json(result);
@@ -50,7 +52,7 @@ exports.contactController.delete('/:id', (req, res) => __awaiter(void 0, void 0,
         res.status(400).json(`${error}`);
     }
 }));
-exports.contactController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactController.put('/:id', (0, validationMiddleware_1.generateValidationMiddleware)(validationSchemas_1.contactSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield contactsService_1.contactsService.editOne(req.params.id, req.body);
         res.json(result);

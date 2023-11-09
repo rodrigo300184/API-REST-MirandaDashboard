@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingsController = void 0;
 const express_1 = require("express");
 const bookingService_1 = require("../services/bookingService");
+const validationMiddleware_1 = require("../validator/validationMiddleware");
+const validationSchemas_1 = require("../validator/validationSchemas");
 exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -32,7 +34,7 @@ exports.bookingsController.get('/:id', (req, res, next) => __awaiter(void 0, voi
         next(error);
     }
 }));
-exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.post('/', (0, validationMiddleware_1.generateValidationMiddleware)(validationSchemas_1.bookingSchema), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newBooking = yield bookingService_1.bookingService.createOne(req.body);
         res.json({ newBooking });
@@ -50,7 +52,7 @@ exports.bookingsController.delete('/:id', (req, res, next) => __awaiter(void 0, 
         next(error);
     }
 }));
-exports.bookingsController.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.put('/:id', (0, validationMiddleware_1.generateValidationMiddleware)(validationSchemas_1.bookingSchema), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const updatedBooking = yield bookingService_1.bookingService.editOne(req.params.id || '', req.body);
         res.json({ updatedBooking });

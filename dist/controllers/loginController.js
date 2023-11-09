@@ -15,8 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginController = void 0;
 const loginService_1 = __importDefault(require("../services/loginService"));
 const express_1 = require("express");
+const validationMiddleware_1 = require("../validator/validationMiddleware");
+const validationSchemas_1 = require("../validator/validationSchemas");
 exports.loginController = (0, express_1.Router)();
-exports.loginController.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.loginController.post("/", (0, validationMiddleware_1.generateValidationMiddleware)(validationSchemas_1.loginSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const email = req.body.email;
         const password = req.body.password;

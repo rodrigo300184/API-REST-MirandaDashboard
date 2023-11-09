@@ -1,5 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { usersService } from '../services/usersService';
+import { userSchema } from '../validator/validationSchemas';
+import { generateValidationMiddleware } from '../validator/validationMiddleware';
 
 
 export const usersController = Router();
@@ -22,7 +24,7 @@ usersController.get('/:id', async (req: Request, res: Response) => {
     }
 })
 
-usersController.post('/', async (req: Request, res: Response) => {
+usersController.post('/', generateValidationMiddleware(userSchema), async (req: Request, res: Response) => {
     try {
         const result = await usersService.createOne(req.body);
         res.json(result);
@@ -40,7 +42,7 @@ usersController.delete('/:id', async (req: Request, res: Response) => {
     }
 })
 
-usersController.put('/:id', async (req: Request, res: Response) => {
+usersController.put('/:id', generateValidationMiddleware(userSchema), async (req: Request, res: Response) => {
     try {
         const result = await usersService.editOne(req.params.id, req.body)
         res.json(result)

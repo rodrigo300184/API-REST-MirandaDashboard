@@ -1,5 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { roomsService } from '../services/roomsService';
+import { roomSchema } from '../validator/validationSchemas';
+import { generateValidationMiddleware } from '../validator/validationMiddleware';
 
 
 export const roomsController = Router();
@@ -22,7 +24,7 @@ roomsController.get('/:id', async (req: Request, res: Response) => {
     }
 })
 
-roomsController.post('/', async (req: Request, res: Response) => {
+roomsController.post('/',generateValidationMiddleware(roomSchema), async (req: Request, res: Response) => {
     try {
         const newRoom = await roomsService.createOne(req.body);
         res.json({newRoom});
@@ -40,7 +42,7 @@ roomsController.delete('/:id', async (req: Request, res: Response) => {
     }
 })
 
-roomsController.put('/:id', async (req: Request, res: Response) => {
+roomsController.put('/:id',generateValidationMiddleware(roomSchema), async (req: Request, res: Response) => {
     try {
         const updatedRoom = await roomsService.editOne(req.params.id, req.body)
         res.json({updatedRoom})

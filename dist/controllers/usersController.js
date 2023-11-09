@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.usersController = void 0;
 const express_1 = require("express");
 const usersService_1 = require("../services/usersService");
+const validationSchemas_1 = require("../validator/validationSchemas");
+const validationMiddleware_1 = require("../validator/validationMiddleware");
 exports.usersController = (0, express_1.Router)();
 exports.usersController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -32,7 +34,7 @@ exports.usersController.get('/:id', (req, res) => __awaiter(void 0, void 0, void
         res.status(400).json(`${error}`);
     }
 }));
-exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.post('/', (0, validationMiddleware_1.generateValidationMiddleware)(validationSchemas_1.userSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield usersService_1.usersService.createOne(req.body);
         res.json(result);
@@ -50,7 +52,7 @@ exports.usersController.delete('/:id', (req, res) => __awaiter(void 0, void 0, v
         res.status(400).json(`${error}`);
     }
 }));
-exports.usersController.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.put('/:id', (0, validationMiddleware_1.generateValidationMiddleware)(validationSchemas_1.userSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield usersService_1.usersService.editOne(req.params.id, req.body);
         res.json(result);
