@@ -14,13 +14,22 @@ const apiError_1 = require("../controllers/apiError");
 const api_connection_1 = require("../utils/api_connection");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllBoookings = yield (0, api_connection_1.selectQuery)('SELECT * FROM booking;');
+        const getAllBoookings = yield (0, api_connection_1.selectQuery)(`
+  SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b 
+  LEFT JOIN room r ON b.room_id = r.id 
+	LEFT JOIN photo p ON r.id = p.room_id 
+	GROUP BY b.id, r.room_number, r.room_type;
+	`);
         return getAllBoookings;
     });
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield (0, api_connection_1.selectQuery)(`SELECT * FROM booking WHERE id = ?`, [id]);
+        const booking = yield (0, api_connection_1.selectQuery)(`
+  SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b 
+  LEFT JOIN room r ON b.room_id = r.id 
+	LEFT JOIN photo p ON r.id = p.room_id 
+  WHERE b.id = ?;`, [id]);
         if (!booking.length)
             throw new apiError_1.ApiError(400, "Error obtaining the booking or the booking doesn't exist");
         return booking[0];

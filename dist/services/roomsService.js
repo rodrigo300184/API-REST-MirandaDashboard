@@ -13,13 +13,23 @@ exports.roomsService = void 0;
 const api_connection_1 = require("../utils/api_connection");
 function fetchAll() {
     return __awaiter(this, void 0, void 0, function* () {
-        const getAllRooms = yield (0, api_connection_1.selectQuery)('SELECT * FROM room;');
+        const getAllRooms = yield (0, api_connection_1.selectQuery)(`
+  SELECT r.*, GROUP_CONCAT(DISTINCT p.photos) AS photos,  GROUP_CONCAT(DISTINCT amenities) AS amenities FROM room r 
+  LEFT JOIN photo p ON r.id = p.room_id
+  LEFT JOIN amenities_has_room ahr ON r.id = ahr.room_id  
+  LEFT JOIN amenity a ON a.id = ahr.amenity_id
+  GROUP BY r.id`);
         return getAllRooms;
     });
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const room = yield (0, api_connection_1.selectQuery)(`SELECT * FROM room WHERE id = ?`, [id]);
+        const room = yield (0, api_connection_1.selectQuery)(`
+  SELECT r.*, GROUP_CONCAT(DISTINCT p.photos) AS photos,  GROUP_CONCAT(DISTINCT amenities) AS amenities FROM room r 
+  LEFT JOIN photo p ON r.id = p.room_id
+  LEFT JOIN amenities_has_room ahr ON r.id = ahr.room_id  
+  LEFT JOIN amenity a ON a.id = ahr.amenity_id
+  WHERE r.id = ?`, [id]);
         if (!room.length)
             throw new Error("Error obtaining the room or the room doesn't exist");
         return room[0];

@@ -4,12 +4,21 @@ import { BookingInterface } from '../interfaces/bookingsInterface';
 
 
 async function fetchAll() {
-  const getAllBoookings = await selectQuery('SELECT * FROM booking;');
+  const getAllBoookings = await selectQuery(`
+  SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b 
+  LEFT JOIN room r ON b.room_id = r.id 
+	LEFT JOIN photo p ON r.id = p.room_id 
+	GROUP BY b.id, r.room_number, r.room_type;
+	`);
   return getAllBoookings;
 }
 
 async function fetchOne(id: string) {
-  const booking = await selectQuery(`SELECT * FROM booking WHERE id = ?`, [id]);
+  const booking = await selectQuery(`
+  SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b 
+  LEFT JOIN room r ON b.room_id = r.id 
+	LEFT JOIN photo p ON r.id = p.room_id 
+  WHERE b.id = ?;`, [id]);
   if (!booking.length) throw new ApiError(400, "Error obtaining the booking or the booking doesn't exist");
   return booking[0];
 }
