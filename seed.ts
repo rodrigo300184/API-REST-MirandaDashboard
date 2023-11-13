@@ -5,21 +5,24 @@ import { RoomInterface } from './interfaces/roomsInterface';
 import { Rooms } from './models/roomsModel';
 import { Bookings } from './models/bookingsModel';
 import mongoose from 'mongoose';
-import 'dotenv/config'; 
+import 'dotenv/config';
+import { Users } from './models/usersModel';
+import { Contacts } from './models/contactsModel';
 
 const UrlMongo = process.env.URL_ATLAS;
+const UrlLocal = process.env.URL_LOCAL;
 
 (async () => {
     try {
-        await mongoose.connect(UrlMongo as string, {
+        await mongoose.connect(UrlLocal as string, {
             dbName: 'Miranda_API',
-            
+
         })
         console.log('Conectado a Mongo')
-        
+
     } catch (error) {
         console.log(error);
-     }
+    }
 })()
 
 ScriptSeed()
@@ -28,26 +31,51 @@ ScriptSeed()
 export async function ScriptSeed() {
     const quantity = 20;
     const rooms = [];
-     
+    Bookings.collection.drop();
+    Rooms.collection.drop();
+    Contacts.collection.drop();
+    Users.collection.drop();
+    
+
+
+    await Users.create(
+        {
+            "full_name": faker.person.fullName(),
+            "email": 'email@email.com',
+            "password": '1234',
+            "photo": faker.image.avatar(),
+            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toLocaleDateString(),
+            "description": faker.person.jobDescriptor(),
+            "phone_number": faker.phone.number(),
+            "status": faker.helpers.arrayElement(['Active', 'Inactive'])
+        }
+    )
+
 
     for (let i = 0; i < quantity; i++) {
         const newRoom = createRandomRoom();
         const room = await Rooms.create(newRoom)
         rooms.push(room);
-     
+
     }
 
-    for (let j = 0; j < quantity; j++) {
+    for (let i = 0; i < quantity; i++) {
         const randomRoom: any = rooms[Math.floor(Math.random() * (quantity - 1))];
         const booking = createRandomBooking(randomRoom)
         await Bookings.create(booking);
-     
+
+    }
+
+    for (let i = 0; i < quantity; i++) {
+        const user = createRandomUser()
+        await Users.create(user);
     }
 
     function createRandomUser(): UsersInterface {
         return {
             "full_name": faker.person.fullName(),
             "email": faker.internet.email(),
+            "password": faker.internet.password(),
             "photo": faker.image.avatar(),
             "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toLocaleDateString(),
             "description": faker.person.jobDescriptor(),
@@ -126,7 +154,7 @@ export async function ScriptSeed() {
         const date = faker.date.between({ from: '2000-01-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' });
         const date2 = faker.date.between({ from: date, to: '2023-10-31T00:00:00.000Z' });
         const date3 = faker.date.between({ from: date2, to: '2023-10-31T00:00:00.000Z' });
-       
+
 
         return {
             "guest": faker.person.fullName(),
@@ -144,6 +172,6 @@ export async function ScriptSeed() {
                 "https://example.com/room_photos/single_bed_3_medium.jpg"]
         };
     }
-   mongoose.disconnect() 
+    mongoose.disconnect()
 }
 

@@ -18,10 +18,12 @@ const roomsModel_1 = require("./models/roomsModel");
 const bookingsModel_1 = require("./models/bookingsModel");
 const mongoose_1 = __importDefault(require("mongoose"));
 require("dotenv/config");
+const usersModel_1 = require("./models/usersModel");
 const UrlMongo = process.env.URL_ATLAS;
+const UrlLocal = process.env.URL_LOCAL;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(UrlMongo, {
+        yield mongoose_1.default.connect(UrlLocal, {
             dbName: 'Miranda_API',
         });
         console.log('Conectado a Mongo');
@@ -30,25 +32,44 @@ const UrlMongo = process.env.URL_ATLAS;
         console.log(error);
     }
 }))();
+// Bookings.collection.drop();
+// Rooms.collection.drop();
+// Contacts.collection.drop();
+// Users.collection.drop();
 ScriptSeed();
 function ScriptSeed() {
     return __awaiter(this, void 0, void 0, function* () {
         const quantity = 20;
         const rooms = [];
+        yield usersModel_1.Users.create({
+            "full_name": faker_1.faker.person.fullName(),
+            "email": 'email@email.com',
+            "password": '1234',
+            "photo": faker_1.faker.image.avatar(),
+            "start_date": faker_1.faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toLocaleDateString(),
+            "description": faker_1.faker.person.jobDescriptor(),
+            "phone_number": faker_1.faker.phone.number(),
+            "status": faker_1.faker.helpers.arrayElement(['Active', 'Inactive'])
+        });
         for (let i = 0; i < quantity; i++) {
             const newRoom = createRandomRoom();
             const room = yield roomsModel_1.Rooms.create(newRoom);
             rooms.push(room);
         }
-        for (let j = 0; j < quantity; j++) {
+        for (let i = 0; i < quantity; i++) {
             const randomRoom = rooms[Math.floor(Math.random() * (quantity - 1))];
             const booking = createRandomBooking(randomRoom);
             yield bookingsModel_1.Bookings.create(booking);
+        }
+        for (let i = 0; i < quantity; i++) {
+            const user = createRandomUser();
+            yield usersModel_1.Users.create(user);
         }
         function createRandomUser() {
             return {
                 "full_name": faker_1.faker.person.fullName(),
                 "email": faker_1.faker.internet.email(),
+                "password": faker_1.faker.internet.password(),
                 "photo": faker_1.faker.image.avatar(),
                 "start_date": faker_1.faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toLocaleDateString(),
                 "description": faker_1.faker.person.jobDescriptor(),

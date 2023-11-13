@@ -10,10 +10,11 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 
 const UrlMongo: string = process.env.URL_ATLAS || '';
+const UrlLocal: string = process.env.URL_LOCAL || '';
 
 (async () => {
     try {
-        await mongoose.connect(UrlMongo, {
+        await mongoose.connect(UrlLocal, {
             dbName: 'Miranda_API',
         })
         console.log('Conectado a Mongo')

@@ -24,9 +24,10 @@ const contactController_1 = require("./controllers/contactController");
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const UrlMongo = process.env.URL_ATLAS || '';
+const UrlLocal = process.env.URL_LOCAL || '';
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(UrlMongo, {
+        yield mongoose_1.default.connect(UrlLocal, {
             dbName: 'Miranda_API',
         });
         console.log('Conectado a Mongo');
