@@ -19,6 +19,7 @@ const bookingsModel_1 = require("./models/bookingsModel");
 const mongoose_1 = __importDefault(require("mongoose"));
 require("dotenv/config");
 const usersModel_1 = require("./models/usersModel");
+const contactsModel_1 = require("./models/contactsModel");
 const UrlMongo = process.env.URL_ATLAS;
 const UrlLocal = process.env.URL_LOCAL;
 (() => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,15 +33,15 @@ const UrlLocal = process.env.URL_LOCAL;
         console.log(error);
     }
 }))();
-// Bookings.collection.drop();
-// Rooms.collection.drop();
-// Contacts.collection.drop();
-// Users.collection.drop();
 ScriptSeed();
 function ScriptSeed() {
     return __awaiter(this, void 0, void 0, function* () {
         const quantity = 20;
         const rooms = [];
+        bookingsModel_1.Bookings.collection.drop();
+        roomsModel_1.Rooms.collection.drop();
+        contactsModel_1.Contacts.collection.drop();
+        usersModel_1.Users.collection.drop();
         yield usersModel_1.Users.create({
             "full_name": faker_1.faker.person.fullName(),
             "email": 'email@email.com',
@@ -130,9 +131,7 @@ function ScriptSeed() {
             const roomNumber = Math.floor(Math.random() * (9) + 1) * 100 + Math.floor(Math.random() * (9) + 1);
             return {
                 "room_number": roomNumber.toString(),
-                "room_photo": faker_1.faker.helpers.arrayElement(["https://example.com/room_photos/single_bed_1_medium.jpg",
-                    "https://example.com/room_photos/single_bed_2_medium.jpg",
-                    "https://example.com/room_photos/single_bed_3_medium.jpg"]) || '',
+                "room_photo": [faker_1.faker.image.urlPicsumPhotos()],
                 "room_type": roomType,
                 "amenities": amenities,
                 "price": price,
@@ -155,7 +154,7 @@ function ScriptSeed() {
                 "room_id": room._id || '',
                 "room_type": room.room_type,
                 "room_number": room.room_number,
-                "status": faker_1.faker.helpers.arrayElement(['Available', 'Booked']),
+                "status": faker_1.faker.helpers.arrayElement(['Check In', 'Check Out', 'In Progress']),
                 "photos": ["https://example.com/room_photos/single_bed_1_medium.jpg",
                     "https://example.com/room_photos/single_bed_2_medium.jpg",
                     "https://example.com/room_photos/single_bed_3_medium.jpg"]

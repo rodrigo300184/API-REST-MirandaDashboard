@@ -21,7 +21,7 @@ function fetchAll() {
 }
 function fetchOne(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const booking = yield bookingsModel_1.Bookings.find({ id: id });
+        const booking = yield bookingsModel_1.Bookings.findById(id);
         if (!booking)
             throw new Error("Error obtaining the booking or the booking doesn't exist");
         return booking;

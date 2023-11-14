@@ -14,16 +14,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
-const defaultUser = {
-    email: "email@email.com",
-    password: "1234",
-};
+const usersModel_1 = require("../models/usersModel");
+// const defaultUser = {
+//     email: "email@email.com",
+//     password: "1234",
+// };
 const secret = process.env.SECRET_KEY || '';
+// async function login(email: string, password: string) {
+//     if (email === defaultUser.email && password === defaultUser.password) return signJWT({ email })
+//     throw new Error('Wrong email or password!')
+// }
 function login(email, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (email === defaultUser.email && password === defaultUser.password)
-            return signJWT({ email });
-        throw new Error('Wrong email or password!');
+        const result = yield usersModel_1.Users.findOne({ email: email });
+        if (!result)
+            throw new Error('User not found');
+        return signJWT({ email });
     });
 }
 function signJWT(payload) {

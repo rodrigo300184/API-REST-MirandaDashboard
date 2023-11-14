@@ -138,9 +138,7 @@ export async function ScriptSeed() {
 
         return {
             "room_number": roomNumber.toString(),
-            "room_photo": faker.helpers.arrayElement(["https://example.com/room_photos/single_bed_1_medium.jpg",
-                "https://example.com/room_photos/single_bed_2_medium.jpg",
-                "https://example.com/room_photos/single_bed_3_medium.jpg"]) || '',
+            "room_photo": [faker.image.urlPicsumPhotos()],
             "room_type": roomType,
             "amenities": amenities,
             "price": price,
@@ -166,7 +164,7 @@ export async function ScriptSeed() {
             "room_id": room._id || '',
             "room_type": room.room_type,
             "room_number": room.room_number,
-            "status": faker.helpers.arrayElement(['Available', 'Booked']),
+            "status": faker.helpers.arrayElement(['Check In', 'Check Out', 'In Progress']),
             "photos": ["https://example.com/room_photos/single_bed_1_medium.jpg",
                 "https://example.com/room_photos/single_bed_2_medium.jpg",
                 "https://example.com/room_photos/single_bed_3_medium.jpg"]

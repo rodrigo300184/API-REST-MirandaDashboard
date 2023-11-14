@@ -8,7 +8,7 @@ async function fetchAll() {
 }
 
 async function fetchOne(id: string) {
-  const booking = await Bookings.find({ id: id });
+  const booking = await Bookings.findById(id);
   if (!booking) throw new Error("Error obtaining the booking or the booking doesn't exist");
   return booking;
 }

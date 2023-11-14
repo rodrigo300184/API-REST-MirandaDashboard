@@ -7,7 +7,7 @@ exports.Rooms = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const roomsSchema = new mongoose_1.default.Schema({
     "room_number": String,
-    "room_photo": String,
+    "room_photo": [String],
     "room_type": String,
     "amenities": [Object],
     "price": Number,
