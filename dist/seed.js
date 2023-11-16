@@ -20,11 +20,10 @@ const mongoose_1 = __importDefault(require("mongoose"));
 require("dotenv/config");
 const usersModel_1 = require("./models/usersModel");
 const contactsModel_1 = require("./models/contactsModel");
-const UrlMongo = process.env.URL_ATLAS;
-const UrlLocal = process.env.URL_LOCAL;
+const urlApi = process.env.URL_API;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(UrlLocal, {
+        yield mongoose_1.default.connect(urlApi, {
             dbName: 'Miranda_API',
         });
         console.log('Conectado a Mongo');

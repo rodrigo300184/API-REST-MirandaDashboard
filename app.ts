@@ -9,12 +9,12 @@ import { contactController } from './controllers/contactController';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-const UrlMongo: string = process.env.URL_ATLAS || '';
-const UrlLocal: string = process.env.URL_LOCAL || '';
+const UrlApi: string = process.env.URL_API || '';
+
 
 (async () => {
     try {
-        await mongoose.connect(UrlLocal, {
+        await mongoose.connect(UrlApi, {
             dbName: 'Miranda_API',
         })
         console.log('Conectado a Mongo')

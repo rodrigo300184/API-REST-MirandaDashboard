@@ -10,12 +10,12 @@ import { Users } from './models/usersModel';
 import { Contacts } from './models/contactsModel';
 import { ContactInterfase } from './interfaces/contactsInterface';
 
-const UrlMongo = process.env.URL_ATLAS;
-const UrlLocal = process.env.URL_LOCAL;
+
+const urlApi = process.env.URL_API;
 
 (async () => {
     try {
-        await mongoose.connect(UrlLocal as string, {
+        await mongoose.connect(urlApi as string, {
             dbName: 'Miranda_API',
 
         })
