@@ -7,7 +7,7 @@ exports.Users = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const usersSchema = new mongoose_1.default.Schema({
     "full_name": { type: String, required: true },
-    "email": { type: String, required: true },
+    "email": { type: String, required: true, unique: true },
     "password": { type: String, required: true },
     "photo": String,
     "start_date": String,

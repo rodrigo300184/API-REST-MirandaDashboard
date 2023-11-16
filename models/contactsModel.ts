@@ -8,7 +8,7 @@ const conctactsSchema = new mongoose.Schema({
     "review_body": String,
     "date": String,
     "dateTime": String,
-    "isArchived": String
+    "status": String
 })
 
 export const Contacts = mongoose.model('Contacts',conctactsSchema);

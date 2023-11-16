@@ -67,6 +67,10 @@ function ScriptSeed() {
             const user = createRandomUser();
             yield usersModel_1.Users.create(user);
         }
+        for (let i = 0; i < quantity; i++) {
+            const contact = createRandomContact();
+            yield contactsModel_1.Contacts.create(contact);
+        }
         function createRandomUser() {
             return {
                 "full_name": faker_1.faker.person.fullName(),
@@ -159,6 +163,17 @@ function ScriptSeed() {
                 "photos": ["https://example.com/room_photos/single_bed_1_medium.jpg",
                     "https://example.com/room_photos/single_bed_2_medium.jpg",
                     "https://example.com/room_photos/single_bed_3_medium.jpg"]
+            };
+        }
+        function createRandomContact() {
+            return {
+                "full_name": faker_1.faker.person.fullName(),
+                "email": faker_1.faker.internet.email(),
+                "phone_number": faker_1.faker.phone.number(),
+                "subject_of_review": faker_1.faker.lorem.words({ min: 1, max: 7 }),
+                "review_body": faker_1.faker.lorem.words({ min: 1, max: 50 }),
+                "dateTime": faker_1.faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString(),
+                "status": faker_1.faker.helpers.arrayElement(['Archived', 'Not Archived'])
             };
         }
         mongoose_1.default.disconnect();

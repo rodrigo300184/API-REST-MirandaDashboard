@@ -13,7 +13,7 @@ const conctactsSchema = new mongoose_1.default.Schema({
     "review_body": String,
     "date": String,
     "dateTime": String,
-    "isArchived": String
+    "status": String
 });
 exports.Contacts = mongoose_1.default.model('Contacts', conctactsSchema);
 //# sourceMappingURL=contactsModel.js.map

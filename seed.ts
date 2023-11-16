@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import { Users } from './models/usersModel';
 import { Contacts } from './models/contactsModel';
+import { ContactInterfase } from './interfaces/contactsInterface';
 
 const UrlMongo = process.env.URL_ATLAS;
 const UrlLocal = process.env.URL_LOCAL;
@@ -35,7 +36,6 @@ export async function ScriptSeed() {
     Rooms.collection.drop();
     Contacts.collection.drop();
     Users.collection.drop();
-    
 
     //hashed password = 1234
     await Users.create(
@@ -44,13 +44,12 @@ export async function ScriptSeed() {
             "email": 'email@email.com',
             "password": "$2a$10$sZVl1VpxdgSnawuwPj7z.eyJDBZmOiRAqHqjT4zTtIh7qIHbMznuC",
             "photo": faker.image.avatar(),
-            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString().slice(0,10),
+            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString().slice(0, 10),
             "description": faker.person.jobDescriptor(),
             "phone_number": faker.phone.number(),
             "status": faker.helpers.arrayElement(['Active', 'Inactive'])
         }
     )
-
 
     for (let i = 0; i < quantity; i++) {
         const newRoom = createRandomRoom();
@@ -63,7 +62,6 @@ export async function ScriptSeed() {
         const randomRoom: any = rooms[Math.floor(Math.random() * (quantity - 1))];
         const booking = createRandomBooking(randomRoom)
         await Bookings.create(booking);
-
     }
 
     for (let i = 0; i < quantity; i++) {
@@ -71,13 +69,19 @@ export async function ScriptSeed() {
         await Users.create(user);
     }
 
+    for (let i = 0; i < quantity; i++) {
+        const contact = createRandomContact()
+        await Contacts.create(contact);
+    }
+    
+
     function createRandomUser(): UsersInterface {
         return {
             "full_name": faker.person.fullName(),
             "email": faker.internet.email(),
             "password": faker.internet.password(),
             "photo": faker.image.avatar(),
-            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString().slice(0,10),
+            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString().slice(0, 10),
             "description": faker.person.jobDescriptor(),
             "phone_number": faker.phone.number(),
             "status": faker.helpers.arrayElement(['Active', 'Inactive'])
@@ -157,9 +161,9 @@ export async function ScriptSeed() {
         return {
             "guest": faker.person.fullName(),
             "phone_number": faker.phone.number(),
-            "order_date": date.toISOString().slice(0,10),
-            "check_in": date2.toISOString().slice(0,10),
-            "check_out": date3.toISOString().slice(0,10),
+            "order_date": date.toISOString().slice(0, 10),
+            "check_in": date2.toISOString().slice(0, 10),
+            "check_out": date3.toISOString().slice(0, 10),
             "special_request": faker.lorem.words({ min: 1, max: 25 }),
             "room_id": room._id || '',
             "room_type": room.room_type,
@@ -168,6 +172,18 @@ export async function ScriptSeed() {
             "photos": ["https://example.com/room_photos/single_bed_1_medium.jpg",
                 "https://example.com/room_photos/single_bed_2_medium.jpg",
                 "https://example.com/room_photos/single_bed_3_medium.jpg"]
+        };
+    }
+
+    function createRandomContact(): ContactInterfase {
+        return {
+            "full_name": faker.person.fullName(),
+            "email": faker.internet.email(),
+            "phone_number": faker.phone.number(),
+            "subject_of_review": faker.lorem.words({ min: 1, max: 7 }),
+            "review_body": faker.lorem.words({ min: 1, max: 50 }),
+            "dateTime": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString(),
+            "status": faker.helpers.arrayElement(['Archived', 'Not Archived'])
         };
     }
     mongoose.disconnect()
