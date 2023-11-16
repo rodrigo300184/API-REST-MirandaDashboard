@@ -15,27 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
 const usersModel_1 = require("../models/usersModel");
-// const defaultUser = {
-//     email: "email@email.com",
-//     password: "1234",
-// };
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const secret = process.env.SECRET_KEY || '';
-// async function login(email: string, password: string) {
-//     if (email === defaultUser.email && password === defaultUser.password) return signJWT({ email })
-//     throw new Error('Wrong email or password!')
-// }
 function login(email, password) {
     return __awaiter(this, void 0, void 0, function* () {
         const result = yield usersModel_1.Users.findOne({ email: email });
         if (!result)
-            throw new Error('User not found');
+            throw new Error('User or password incorrect');
+        const passwordCheck = yield bcryptjs_1.default.compare(password, result.password || '');
+        if (!passwordCheck)
+            throw new Error('User or password incorrect');
         return signJWT({ email });
     });
 }
+;
 function signJWT(payload) {
     const token = jsonwebtoken_1.default.sign(payload, secret);
     return { payload, token };
 }
+;
 function verifyJWT(token) {
     const verifiedResult = jsonwebtoken_1.default.verify(token, secret);
     return verifiedResult;

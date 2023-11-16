@@ -37,14 +37,14 @@ export async function ScriptSeed() {
     Users.collection.drop();
     
 
-
+    //hashed password = 1234
     await Users.create(
         {
             "full_name": faker.person.fullName(),
             "email": 'email@email.com',
-            "password": '1234',
+            "password": "$2a$10$sZVl1VpxdgSnawuwPj7z.eyJDBZmOiRAqHqjT4zTtIh7qIHbMznuC",
             "photo": faker.image.avatar(),
-            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toLocaleDateString(),
+            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString().slice(0,10),
             "description": faker.person.jobDescriptor(),
             "phone_number": faker.phone.number(),
             "status": faker.helpers.arrayElement(['Active', 'Inactive'])
@@ -77,7 +77,7 @@ export async function ScriptSeed() {
             "email": faker.internet.email(),
             "password": faker.internet.password(),
             "photo": faker.image.avatar(),
-            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toLocaleDateString(),
+            "start_date": faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString().slice(0,10),
             "description": faker.person.jobDescriptor(),
             "phone_number": faker.phone.number(),
             "status": faker.helpers.arrayElement(['Active', 'Inactive'])
@@ -157,9 +157,9 @@ export async function ScriptSeed() {
         return {
             "guest": faker.person.fullName(),
             "phone_number": faker.phone.number(),
-            "order_date": date.toLocaleDateString(),
-            "check_in": date2.toLocaleDateString(),
-            "check_out": date3.toLocaleDateString(),
+            "order_date": date.toISOString().slice(0,10),
+            "check_in": date2.toISOString().slice(0,10),
+            "check_out": date3.toISOString().slice(0,10),
             "special_request": faker.lorem.words({ min: 1, max: 25 }),
             "room_id": room._id || '',
             "room_type": room.room_type,

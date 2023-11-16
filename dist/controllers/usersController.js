@@ -44,7 +44,7 @@ exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0
 exports.usersController.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield usersService_1.usersService.deleteOne(req.params.id);
-        res.json('The user was correctly deleted.');
+        res.json('The employee was correctly deleted.');
     }
     catch (error) {
         res.status(400).json(`${error}`);

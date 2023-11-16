@@ -37,7 +37,7 @@ app.use('/login', loginController)
 app.use(authMiddleware)
 app.use('/bookings', bookingsController)
 app.use('/rooms', roomsController)
-app.use('/users', usersController)
+app.use('/employees', usersController)
 app.use('/contacts', contactController)
 app.use((error: Error, _req: Request, res: Response) => {
     console.error(error);

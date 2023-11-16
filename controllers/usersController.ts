@@ -34,7 +34,7 @@ usersController.post('/', async (req: Request, res: Response) => {
 usersController.delete('/:id', async (req: Request, res: Response) => {
     try {
         await usersService.deleteOne(req.params.id)
-        res.json('The user was correctly deleted.')
+        res.json('The employee was correctly deleted.')
     } catch (error) {
         res.status(400).json(`${error}`);
     }

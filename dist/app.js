@@ -46,7 +46,7 @@ exports.app.use('/login', loginController_1.loginController);
 exports.app.use(login_1.authMiddleware);
 exports.app.use('/bookings', bookingsController_1.bookingsController);
 exports.app.use('/rooms', roomsController_1.roomsController);
-exports.app.use('/users', usersController_1.usersController);
+exports.app.use('/employees', usersController_1.usersController);
 exports.app.use('/contacts', contactController_1.contactController);
 exports.app.use((error, _req, res) => {
     console.error(error);

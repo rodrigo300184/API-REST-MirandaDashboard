@@ -42,12 +42,13 @@ function ScriptSeed() {
         roomsModel_1.Rooms.collection.drop();
         contactsModel_1.Contacts.collection.drop();
         usersModel_1.Users.collection.drop();
+        //hashed password = 1234
         yield usersModel_1.Users.create({
             "full_name": faker_1.faker.person.fullName(),
             "email": 'email@email.com',
-            "password": '1234',
+            "password": "$2a$10$sZVl1VpxdgSnawuwPj7z.eyJDBZmOiRAqHqjT4zTtIh7qIHbMznuC",
             "photo": faker_1.faker.image.avatar(),
-            "start_date": faker_1.faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toLocaleDateString(),
+            "start_date": faker_1.faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString().slice(0, 10),
             "description": faker_1.faker.person.jobDescriptor(),
             "phone_number": faker_1.faker.phone.number(),
             "status": faker_1.faker.helpers.arrayElement(['Active', 'Inactive'])
@@ -72,7 +73,7 @@ function ScriptSeed() {
                 "email": faker_1.faker.internet.email(),
                 "password": faker_1.faker.internet.password(),
                 "photo": faker_1.faker.image.avatar(),
-                "start_date": faker_1.faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toLocaleDateString(),
+                "start_date": faker_1.faker.date.between({ from: '1970-01-01T00:00:00.000Z', to: '2005-12-31T00:00:00.000Z' }).toISOString().slice(0, 10),
                 "description": faker_1.faker.person.jobDescriptor(),
                 "phone_number": faker_1.faker.phone.number(),
                 "status": faker_1.faker.helpers.arrayElement(['Active', 'Inactive'])
@@ -147,9 +148,9 @@ function ScriptSeed() {
             return {
                 "guest": faker_1.faker.person.fullName(),
                 "phone_number": faker_1.faker.phone.number(),
-                "order_date": date.toLocaleDateString(),
-                "check_in": date2.toLocaleDateString(),
-                "check_out": date3.toLocaleDateString(),
+                "order_date": date.toISOString().slice(0, 10),
+                "check_in": date2.toISOString().slice(0, 10),
+                "check_out": date3.toISOString().slice(0, 10),
                 "special_request": faker_1.faker.lorem.words({ min: 1, max: 25 }),
                 "room_id": room._id || '',
                 "room_type": room.room_type,
