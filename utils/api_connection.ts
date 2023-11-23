@@ -11,7 +11,8 @@ export const createDatabaseIfNotExists = async () => {
   try {
     // Conectarse al servidor MySQL sin seleccionar una base de datos.
     const connection = await mysql.createConnection({
-      host: 'localhost',
+      port: 33061,
+      host: '127.0.0.1',
       user: userSQL,
       password: passwordSQL,
     });
@@ -33,7 +34,8 @@ export const createDatabaseIfNotExists = async () => {
 createDatabaseIfNotExists();
 
 const pool = mysql.createPool({
-  host: 'localhost',
+  port: 33061,
+  host: '127.0.0.1',
   user: userSQL,
   database: databaseSQL,
   password: passwordSQL,

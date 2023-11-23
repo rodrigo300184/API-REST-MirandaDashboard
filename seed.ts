@@ -9,11 +9,22 @@ import { selectQuery } from './utils/api_connection';
 scriptSeed()
 
 async function scriptSeed() {
-    const bookingsQuantity = 600;
-    const roomsQuantity = 90;
-    const userQuantity = 25;
-    const contactQuantity = 25;
+    const bookingsQuantity = 60;
+    const roomsQuantity = 20;
+    const userQuantity = 20;
+    const contactQuantity = 20;
     const rooms = [];
+    const images = ["https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1260&h=750&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1260&h=750&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=1260&h=750&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1570737209810-87a8e7245f88?q=80&w=1260&h=750&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1260&h=750&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1633505650701-6104c4fc72c2?q=80&w=1260&h=750&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1640109478916-f445f8f19b11?q=80&w=1260&h=750&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ]
 
     await selectQuery(`CREATE TABLE IF NOT EXISTS room (id INT NOT NULL AUTO_INCREMENT, room_number INT NOT NULL,
                      room_type VARCHAR(45) NOT NULL, description LONGTEXT NOT NULL, price INT NOT NULL,
@@ -60,7 +71,7 @@ async function scriptSeed() {
                                                                       FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE ON UPDATE CASCADE,
                                                                       FOREIGN KEY (amenity_id) REFERENCES amenity (id), 
                                                                       PRIMARY KEY (room_id, amenity_id));`);
-    await selectQuery(`INSERT INTO amenity (amenities) VALUES ('Free Wifi'), ('Towels'), ('Mini Bar'), ('Coffee Set'), ('Nice Views'), ('1/3 Bed Space'), ('24-Hour Guard'), ('Air Conditioner'), ('Television'), ('Coffee Set');`);
+    await selectQuery(`INSERT INTO amenity (amenities) VALUES ('Free Wifi'), ('Automobile'), ('Cocktails'), ('Gym'), ('Extra Bed'), ('No Smoking'), ('Air Conditioner');`);
 
 
     for (let i = 0; i < roomsQuantity; i++) {
@@ -68,12 +79,24 @@ async function scriptSeed() {
         const data = [room.room_number, room.room_type, room.description, room.price, room.offer_price, room.discount, room.status];
         const query = `INSERT INTO room (room_number, room_type, description, price, offer_price, discount, status) VALUES (?, ?, ?, ?, ?, ?, ?);`;
         const newRoom = await selectQuery(query, data);
-        const createdRoom = await selectQuery(`SELECT * FROM room WHERE id = ?`,[newRoom.insertId]);
-        await selectQuery(`INSERT INTO photo (photos,room_id) VALUES ("https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", ? ), ("https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", ? ), ("https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", ?);`,[newRoom.insertId,newRoom.insertId,newRoom.insertId])
-        await selectQuery(`INSERT INTO amenities_has_room (room_id, amenity_id) VALUES (?, ?), (?, ?), (?, ?), (?, ?);`,
-        [newRoom.insertId,Math.floor(Math.random() *1+1),newRoom.insertId,Math.floor(Math.random() *2+3),newRoom.insertId,Math.floor(Math.random() *2+6),newRoom.insertId,Math.floor(Math.random() *1+9)]);
-        rooms.push(createdRoom[0]);
+        const createdRoom = await selectQuery(`SELECT * FROM room WHERE id = ?`, [newRoom.insertId]);
+        await selectQuery(`INSERT INTO photo (photos,room_id) VALUES (?,?);`, [images[Math.floor(Math.random() * 10)], newRoom.insertId])
+        const amenitiesNumber = Math.floor(Math.random() * 3 + 4)
+        if (amenitiesNumber === 4) {
+            await selectQuery(`INSERT INTO amenities_has_room (room_id, amenity_id) VALUES (?, ?), (?, ?), (?, ?), (?, ?);`,
+                [newRoom.insertId, 1, newRoom.insertId, 2, newRoom.insertId, 3, newRoom.insertId, 4]);
+        } else if (amenitiesNumber === 5) {
+            await selectQuery(`INSERT INTO amenities_has_room (room_id, amenity_id) VALUES (?, ?), (?, ?), (?, ?), (?, ?),(?,?);`,
+                [newRoom.insertId, 1, newRoom.insertId, 2, newRoom.insertId, 3, newRoom.insertId, 4, newRoom.insertId, 5]);
+        } else if (amenitiesNumber === 6) {
+            await selectQuery(`INSERT INTO amenities_has_room (room_id, amenity_id) VALUES (?, ?), (?, ?), (?, ?), (?, ?),(?,?),(?,?);`,
+                [newRoom.insertId, 1, newRoom.insertId, 2, newRoom.insertId, 3, newRoom.insertId, 4, newRoom.insertId, 5, newRoom.insertId, 6]);
+        } else {
+            await selectQuery(`INSERT INTO amenities_has_room (room_id, amenity_id) VALUES (?, ?), (?, ?), (?, ?), (?, ?), (?, ?),(?,?),(?,?);`,
+            [newRoom.insertId, 1, newRoom.insertId, 2, newRoom.insertId, 3, newRoom.insertId, 4, newRoom.insertId, 5, newRoom.insertId, 6, newRoom.insertId, 7]);
 
+        }
+        rooms.push(createdRoom[0]);
     }
 
     for (let i = 0; i < bookingsQuantity; i++) {
@@ -95,12 +118,12 @@ async function scriptSeed() {
     for (let i = 0; i < contactQuantity; i++) {
         const contact = createRandomContact();
         const query = `INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) VALUES (?, ?, ?, ?, ?, ?, ?);`;
-        const data = [contact.full_name,contact.email,contact.phone_number,contact.subject_of_review,contact.review_body,contact.date,contact.status];
+        const data = [contact.full_name, contact.email, contact.phone_number, contact.subject_of_review, contact.review_body, contact.date, contact.status];
         await selectQuery(query, data);
     }
 
 
-    
+
 
     function createRandomUser(): UsersInterface {
         return {
@@ -127,7 +150,7 @@ async function scriptSeed() {
     }
 
     function createRandomRoom(): RoomInterface {
-        const roomType = faker.helpers.arrayElement(['Double Superior', 'Single Bed', 'Suite', 'Double Bed']);
+        const roomType = faker.helpers.arrayElement(['Double Superior', 'Luxury', 'Suite', 'Double Bed']);
         const price = roomType === 'Double Superior' ? 250 :
             roomType === 'Single Bed' ? 140 :
                 roomType === 'Suite' ? 370 : 180;
@@ -138,7 +161,7 @@ async function scriptSeed() {
         return {
             "room_number": roomNumber.toString(),
             "room_type": roomType,
-            "description": faker.lorem.words({ min: 1, max: 30 }),
+            "description": faker.lorem.words({ min: 12, max: 18 }),
             "price": price,
             "offer_price": offer,
             "discount": discount,
