@@ -32,11 +32,12 @@ async function scriptSeed() {
     await selectQuery(`CREATE TABLE IF NOT EXISTS booking (id INT NOT NULL AUTO_INCREMENT,
                                                            guest VARCHAR(255) NOT NULL,
                                                            phone_number VARCHAR(45) NOT NULL,
-                                                           order_date DATE NOT NULL,
+                                                           email VARCHAR(255) NOT NULL,
+                                                           order_date DATE NOT NULL DEFAULT (CURRENT_DATE),
                                                            check_in DATE NOT NULL,
                                                            check_out DATE NOT NULL,
                                                            special_request VARCHAR(255) NOT NULL,
-                                                           status VARCHAR(45) NOT NULL,
+                                                           status VARCHAR(45) NOT NULL DEFAULT 'Booked',
                                                            room_id INT NOT NULL,
                                                            PRIMARY KEY(id),
                                                            FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE ON UPDATE CASCADE);`);
@@ -102,8 +103,8 @@ async function scriptSeed() {
     for (let i = 0; i < bookingsQuantity; i++) {
         const randomRoom: any = rooms[Math.floor(Math.random() * (roomsQuantity - 1))];
         const booking = createRandomBooking(randomRoom)
-        const query = `INSERT INTO booking (guest,phone_number, order_date, check_in, check_out,special_request, status, room_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
-        const data = [booking.guest, booking.phone_number, booking.order_date, booking.check_in, booking.check_out, booking.special_request,
+        const query = `INSERT INTO booking (guest,phone_number, email, order_date, check_in, check_out,special_request, status, room_id) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?);`;
+        const data = [booking.guest, booking.phone_number, booking.email, booking.order_date, booking.check_in, booking.check_out, booking.special_request,
         booking.status, booking.room_id];
         await selectQuery(query, data);
     }
@@ -177,6 +178,7 @@ async function scriptSeed() {
         return {
             "guest": faker.person.fullName(),
             "phone_number": faker.phone.number(),
+            "email": faker.internet.email(),
             "order_date": date.toISOString().split('T')[0],
             "check_in": date2.toISOString().split('T')[0],
             "check_out": date3.toISOString().split('T')[0],

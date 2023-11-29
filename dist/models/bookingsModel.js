@@ -8,6 +8,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const bookingsSchema = new mongoose_1.default.Schema({
     "guest": String,
     "phone_number": String,
+    "email": String,
     "order_date": String,
     "check_in": String,
     "check_out": String,

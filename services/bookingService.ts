@@ -24,8 +24,8 @@ async function fetchOne(id: string) {
 }
 
 async function createOne(booking: BookingInterface) {
-  const query = `INSERT INTO booking (guest,phone_number, order_date, check_in, check_out,special_request, status, room_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
-  const data = [booking.guest, booking.phone_number, booking.order_date, booking.check_in, booking.check_out, booking.special_request,
+  const query = `INSERT INTO booking (guest,phone_number,email, order_date, check_in, check_out,special_request, status, room_id) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?);`;
+  const data = [booking.guest, booking.phone_number,booking.email, booking.order_date, booking.check_in, booking.check_out, booking.special_request,
   booking.status, booking.room_id];
   const newBooking = await selectQuery(query, data);
   if (newBooking.affectedRows === 0) throw new Error("The booking couldn't be created");

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const bookingsSchema = new mongoose.Schema({
   "guest": String,
   "phone_number": String,
+  "email": String,
   "order_date": String,
   "check_in": String,
   "check_out": String,

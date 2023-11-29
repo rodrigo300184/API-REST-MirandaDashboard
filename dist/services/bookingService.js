@@ -37,8 +37,8 @@ function fetchOne(id) {
 }
 function createOne(booking) {
     return __awaiter(this, void 0, void 0, function* () {
-        const query = `INSERT INTO booking (guest,phone_number, order_date, check_in, check_out,special_request, status, room_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
-        const data = [booking.guest, booking.phone_number, booking.order_date, booking.check_in, booking.check_out, booking.special_request,
+        const query = `INSERT INTO booking (guest,phone_number,email, order_date, check_in, check_out,special_request, status, room_id) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?);`;
+        const data = [booking.guest, booking.phone_number, booking.email, booking.order_date, booking.check_in, booking.check_out, booking.special_request,
             booking.status, booking.room_id];
         const newBooking = yield (0, api_connection_1.selectQuery)(query, data);
         if (newBooking.affectedRows === 0)

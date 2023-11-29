@@ -19,7 +19,8 @@ const createDatabaseIfNotExists = () => __awaiter(void 0, void 0, void 0, functi
     try {
         // Conectarse al servidor MySQL sin seleccionar una base de datos.
         const connection = yield mysql.createConnection({
-            host: 'localhost',
+            port: 33061,
+            host: '127.0.0.1',
             user: userSQL,
             password: passwordSQL,
         });
@@ -37,7 +38,8 @@ exports.createDatabaseIfNotExists = createDatabaseIfNotExists;
 // Llamar a la función createDatabaseIfNotExists al iniciar la aplicación
 (0, exports.createDatabaseIfNotExists)();
 const pool = mysql.createPool({
-    host: 'localhost',
+    port: 33061,
+    host: '127.0.0.1',
     user: userSQL,
     database: databaseSQL,
     password: passwordSQL,
