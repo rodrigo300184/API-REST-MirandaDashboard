@@ -56,7 +56,7 @@ async function scriptSeed() {
                                                            phone_number VARCHAR(45) NOT NULL,
                                                            subject_of_review VARCHAR(255) NOT NULL,
                                                            review_body LONGTEXT NOT NULL,
-                                                           date DATE NOT NULL,
+                                                           date DATE NOT NULL DEFAULT (CURRENT_DATE),
                                                            status VARCHAR(45) NOT NULL DEFAULT 'Active',
                                                            PRIMARY KEY (id));`);
     await selectQuery(`CREATE TABLE IF NOT EXISTS photo (id INT NOT NULL AUTO_INCREMENT,
