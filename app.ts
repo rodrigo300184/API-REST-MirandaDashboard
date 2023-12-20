@@ -9,13 +9,14 @@ import { contactController } from './controllers/contactController';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-const UrlApi: string = process.env.URL_API || '';
+const urlApi: string = process.env.URL_API || '';
+const dbName: string = process.env.DB_NAME || '';
 
 
 (async () => {
     try {
-        await mongoose.connect(UrlApi, {
-            dbName: 'Miranda_API',
+        await mongoose.connect(urlApi, {
+            dbName: dbName,
         })
         console.log('Conectado a Mongo')
     } catch (error) {
