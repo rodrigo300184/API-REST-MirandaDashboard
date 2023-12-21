@@ -8,6 +8,7 @@ provider:
   environment:
     SECRET_KEY: ${file(.env.json):SECRET_KEY}
     URL_API: ${file(.env.json):URL_API}
+    DB_NAME: ${file(.env.json):DB_NAME}
   
 
 functions:
