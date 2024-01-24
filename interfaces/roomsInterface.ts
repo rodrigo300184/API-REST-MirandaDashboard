@@ -6,6 +6,7 @@ export interface RoomInterface {
     "room_photo": string[],
     "room_type": string,
     "amenities": Iamenities[],
+    "description": string[],
     "price": number,
     "offer_price": boolean,
     "discount": number,
